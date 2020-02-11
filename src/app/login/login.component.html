@@ -1,0 +1,106 @@
+<app-header></app-header>
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="exampleModal11" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+
+
+
+
+
+
+
+
+<div class="top">
+
+       <div class="img1">
+         <img src="../../assets/images/11.png" id="icon" alt="User Icon" height="200" width="1"/>
+        </div>
+
+    
+        <!-- Login Form -->
+        <form  [formGroup]="profileForm"  (ngSubmit)="onSubmit1($event)">
+          <input type="text" id="login"formControlName="Emailid1" [(ngModel)]="username" name="login" placeholder="Email"><br>
+          <span *ngIf="!profileForm.get('Emailid1').valid && profileForm.get('Emailid1').touched" class="help-block">please Enter a valid Email-Id with . and @ </span><br>
+          <input type="password" id="password"formControlName="password1" name="login" placeholder="Password">
+    <br>
+    <span *ngIf="profileForm.controls['password1'].hasError('hasNumber') && profileForm.get('password1').touched; then notShow11; else notShow"></span>
+    <ng-template #notShow11>
+      <span  > Must have at least 1 number!</span>
+    </ng-template>
+    
+    
+    
+    <ng-template  #notShow  >
+      <span *ngIf="profileForm.controls['password1'].hasError('hasCapitalCase') && profileForm.get('password1').touched else notShow1" class="text-danger">
+      Must have at least 1 Capital Case!
+      </span>
+    </ng-template>
+    
+    
+    <ng-template #notShow1>
+    <span
+    
+    *ngIf="profileForm.controls['password1'].hasError('haslengthCase') && profileForm.get('password1').touched else notShow12">
+    Must have length 1 special charecter!
+    </span>
+    </ng-template>
+    
+    
+    <ng-template #notShow12>
+    <span *ngIf="profileForm.get('password1').errors?.minlength  && profileForm.get('password1').touched else notShow13">
+    Please enter minimum 8 charecter
+    </span>
+    </ng-template>
+    <ng-template #notShow13>
+    <span
+    *ngIf="profileForm.get('password1').errors?.required  && profileForm.get('password1').touched">
+    Please enter the password!
+    </span>
+    </ng-template>
+    <br>
+    
+          <button type="submit" class="btn btn-primary btn1" value="Log In" [disabled]=!profileForm.valid>Log in</button><br>
+        </form>
+
+      </div>
+  
+
+
+      </div>
+    
+    </div>
+  </div>
+</div>

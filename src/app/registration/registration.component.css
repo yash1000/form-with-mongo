@@ -1,0 +1,24 @@
+input{
+    width:100%;
+    border-radius: 5px;
+    border:1px solid black;
+    padding:5px;
+    /* margin:2%; */
+}
+input.ng-invalid.ng-touched{
+    border:1px solid red;
+}
+span{
+    color:red
+}
+table{
+    border:1px solid black;
+    width: 100%;
+}
+td{
+    border:1px solid black;
+    padding:1%;
+}
+.button1{
+    width: 100%;
+}
