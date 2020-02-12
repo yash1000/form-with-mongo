@@ -4,19 +4,36 @@
 <h1>{{email}}</h1> -->
 <!-- <h1> {{emp.firstName}}</h1> -->
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div >
 <form  [formGroup]="profileForm"  (ngSubmit)="onSubmit1($event)"><br>
-Firstname<br><input type="text" id="firstName"formControlName="firstname" placeholder="First name" value="{{firstName}}"><br>
+Firstname:-<input type="text" id="firstName"formControlName="firstname" placeholder="First name" value="{{firstName}}"><br>
 
-  Lastname <br> <input type="text" id="lastName"formControlName="lastname" placeholder="Last Name" value="{{lastName}}"><br>
+  Lastname:-<input type="text" id="lastName"formControlName="lastname" placeholder="Last Name" value="{{lastName}}"><br>
 
-  Email <br> <input type="text" id="email"formControlName="email" placeholder="Email" value="{{email}}" disabled><br>
-  Contect  <br> <input type="text" id="contect"formControlName="contact" placeholder="contact number" value="{{contactnumber}}"><br>
-   Gender<br> Male<input type="radio" name="gender" value="male"formControlName="gender" checked><br>
+  Email:-<input type="text" id="email"formControlName="email" placeholder="Email" value="{{email}}" disabled><br>
+  <!-- Contect:-<input type="text" id="contect"formControlName="contact" placeholder="contact number" value="{{contactnumber}}"><br>
+   Gender:- Male<input type="radio" name="gender" value="male"formControlName="gender" checked><br>
    Female
     <input type="radio" name="gender"formControlName="gender" value="female">  <br>
     Other
-    <input type="radio" name="gender" formControlName="gender"value="other"><br>
-    <button type="submit" class="btn btn-primary btn1" value="Log In" [disabled]=!profileForm.valid>Log in</button><br>
+    <input type="radio" name="gender" formControlName="gender"value="other"><br> -->
+    <button type="submit" class="btn btn-primary btn1" value="Log In" [disabled]=!profileForm.valid>Update</button><br>
   </form>
 </div>
+
