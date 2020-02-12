@@ -1,9 +1,11 @@
 const mongoose=require('mongoose');
 
-var Employee = mongoose.model('Employee',{
-
-    Emailid1:{type:String},
-    password1:{type:String},
+var Employee1 = mongoose.model('Employee1',{
+    firstname:{type:String},
+    lastname:{type:String},
+    email:{type:String},
+    contact:{type:String},
+    gender:{type:Boolean}
 
 })
 

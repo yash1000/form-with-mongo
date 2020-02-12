@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 declare var $:any;
 
 @Component({
@@ -10,8 +11,19 @@ declare var $:any;
 })
 export class LoggedinComponent implements OnInit {
   firstName:String;
-  constructor(private authsevice:AuthService,private router:Router) { 
-    // location.reload();
+  username:String;
+  constructor(private authsevice:AuthService,private router:Router,private userservice:UserService) { 
+    
+    // console.log("((((((((((((((((((((((((((((((((((((((((((((10")
+    // this.userservice.getusername().subscribe(
+    //   data=>{this.username=data.toString();
+    //     console.log("((((((((((((((((((((((((((((((((((((((((((((9")
+    //   console.log(data)},
+    //   error=>this.router.navigate['/login']
+    //   // console.log(object)
+    // );
+    
+    // console.log(this.username);
   }
 
   ngOnInit() {
@@ -25,4 +37,5 @@ export class LoggedinComponent implements OnInit {
     // this.authsevice.loggedout();
     this.router.navigate(['/login']);
   }
+
 }

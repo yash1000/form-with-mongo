@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         console.log(res);
         localStorage.setItem("user",JSON.stringify(res.message));
+        // localStorage.setItem("user1",JSON.stringify(res.token));
         $("#exampleModal11").modal("hide");
         this.router.navigate(["/loggedin"]);
         this.toastr.success('successfully login');

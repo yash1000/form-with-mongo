@@ -6,11 +6,11 @@
 
 <div >
 <form  [formGroup]="profileForm"  (ngSubmit)="onSubmit1($event)"><br>
-Firstname<br><input type="text" id="firstName"formControlName="firstName" placeholder="First name" value="{{firstName}}"><br>
+Firstname<br><input type="text" id="firstName"formControlName="firstname" placeholder="First name" value="{{firstName}}"><br>
 
-  Lastname <br> <input type="text" id="lastName"formControlName="lastName" placeholder="Last Name" value="{{lastName}}"><br>
+  Lastname <br> <input type="text" id="lastName"formControlName="lastname" placeholder="Last Name" value="{{lastName}}"><br>
 
-  Email <br> <input type="text" id="email"formControlName="email" placeholder="Email" value="{{email}}"><br>
+  Email <br> <input type="text" id="email"formControlName="email" placeholder="Email" value="{{email}}" disabled><br>
   Contect  <br> <input type="text" id="contect"formControlName="contact" placeholder="contact number" value="{{contactnumber}}"><br>
    Gender<br> Male<input type="radio" name="gender" value="male"formControlName="gender" checked><br>
    Female
