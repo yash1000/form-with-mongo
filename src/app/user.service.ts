@@ -18,7 +18,7 @@ readonly baseurl="http://localhost:8000/employee";
   }
 
   postemployee2(emp : Employee1){
-    console.log("DATA SENT")
+    // console.log("DATA SENT")
     console.log(emp)
     return this.https.post('http://localhost:8000/editprofile',emp);
   }

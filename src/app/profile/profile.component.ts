@@ -12,8 +12,8 @@ export class ProfileComponent implements OnInit {
   firstName:String;
   lastName:String;
   email:String;
-  contact: any;
-  gender: any;
+  // contact: any;
+  // gender: any;
   constructor( private fb: FormBuilder,private userservice:UserService) { }
   profileForm:FormGroup;
   // profileForm=new FormGroup({
@@ -29,11 +29,12 @@ export class ProfileComponent implements OnInit {
     if(localStorage.getItem('user')){
         var user=JSON.parse(localStorage.getItem("user"));
     console.log(user.firstName);
+    
     this.firstName=user.firstName;
     this.lastName=user.lastName;
     this.email=user.Emailid;
-    this.contact=user.contact;
-    this.gender=user.gender;
+    // this.contact=user.contact;
+    // this.gender=user.gender;
     }
 
 
@@ -41,20 +42,25 @@ export class ProfileComponent implements OnInit {
       firstname:[this.firstName],
       lastname:[this.lastName],
       email:[ this.email],
-      contact:[''],
-      gender:['']
+      // contact:[''],
+      // gender:['']
     });
   }
 
   onSubmit1(event){
+    var user=JSON.parse(localStorage.getItem("user"));
+    console.log(user._id);
+    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^")
     console.log("inside profile form");
     console.log(this.profileForm.value);
+    var id=user._id;
     var temp = {
+      _id:id,
       firstName : this.profileForm.value.firstname,
       lastName : this.profileForm.value.lastname,
       Emailid : this.profileForm.value.email,
-      contact : this.profileForm.value.contact,
-      gender : this.profileForm.value.gender
+      // contact : this.profileForm.value.contact,
+      // gender : this.profileForm.value.gender
     }
     this.userservice.postemployee2(temp).subscribe((res:any) => {
       console.log("successfulLy updated to database" + this.profileForm.value);

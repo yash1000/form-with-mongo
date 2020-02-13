@@ -130,14 +130,14 @@ app.post('/editprofile',(req,res)=>{
     // }
     // console.log(req.body);
 
-    Employee.update(
-        {contact:req.body.contact},
-        {gender:req.body.gender})
+    // Employee.update(
+    //     {contact:req.body.contact},
+    //     {gender:req.body.gender})
         // console.log(Employee.body);
         // console.log("oooooooooooooooooooooooooooooooooooooooooooooooo")
-    Employee.findOneAndUpdate({Emailid:req.body.Emailid},{$set:req.body},{new:true,upsert: true },(err,docs)=>{
+    Employee.findOneAndUpdate({_id:req.body._id},{$set:req.body},{new:true,upsert: true },(err,docs)=>{
 console.log(req.body);  
-
+console.log("----------------"+req.body._id)
 console.log("****************************")
         // Employee.findOne({Emailid:empupdate.Emailid})
         console.log(docs)
