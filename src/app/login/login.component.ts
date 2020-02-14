@@ -6,6 +6,7 @@ import { CustomValidators } from '../header/custom-validators';
 import { UserService } from '../user.service';
 import { AuthService } from '../auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 declare var $:any;
 
 @Component({
@@ -15,10 +16,11 @@ declare var $:any;
 })
 export class LoginComponent implements OnInit {
   profileForm:FormGroup;
-  constructor(private toastr: ToastrService,private router:Router, private fb:FormBuilder,private userservice:UserService,private authsevice:AuthService) { }
-  onshow(){
-    $("#exampleModal").modal("show");
-  }
+  closeResult: string;
+  constructor(
+    private activeModal: NgbActiveModal,
+    private modalService: NgbModal,private toastr: ToastrService,private router:Router, private fb:FormBuilder,private userservice:UserService,private authsevice:AuthService) { }
+
   ngOnInit() {
 
 
@@ -46,6 +48,7 @@ export class LoginComponent implements OnInit {
         $("#exampleModal11").modal("hide");
         this.router.navigate(["/loggedin"]);
         this.toastr.success('successfully login');
+        this.closeModal();
       }
       else if(res.status==2){
         this.toastr.error('Invalid Password');
@@ -55,5 +58,25 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-  
+
+  closeModal() {
+    this.activeModal.close();
+  }
+//   open(content) {
+//     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+//       this.closeResult = `Closed with: ${result}`;
+//     }, (reason) => {
+//       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+//     });
+//   }
+
+//   private getDismissReason(reason: any): string {
+//     if (reason === ModalDismissReasons.ESC) {
+//       return 'by pressing ESC';
+//     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+//       return 'by clicking on a backdrop';
+//     } else {
+//       return  `with: ${reason}`;
+//     }
+//   }
 }

@@ -1,4 +1,46 @@
-<app-header></app-header>
-<app-slider></app-slider>
+<app-header></app-header><br>
+<app-slider></app-slider><br>
 
-<h1>{{username}}</h1>
+<div class="container">
+
+  <table *ngIf="rows.length > 0" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Emailid</th>
+      </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let emp of rows.slice(1);let i = index">
+            <td>{{i+1}}</td>
+            <td>{{ emp.firstName }}</td>
+            <td>{{ emp.lastName }}</td>
+            <td>{{ emp.Emailid }}</td>
+        </tr>
+      
+      </tbody>
+    </table>
+  </div>
+
+
+
+
+
+
+<!-- 
+  <br>
+   <div>
+      <ngx-datatable
+      class="material"
+      [headerHeight]="50"
+      [columnMode]="'force'"
+      [footerHeight]="50"
+      [count]="true"
+      [limit]="1"
+        [rows]="rows"
+        [columns]="columns">
+      </ngx-datatable>
+    </div> -->

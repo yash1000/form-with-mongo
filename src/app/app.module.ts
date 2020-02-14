@@ -16,7 +16,9 @@ import { AuthGuard } from './authguard.service';
 import { AuthService } from './auth.service';
 import { SecurePage } from './securepage.service';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
-
+import { DataTablesModule } from 'angular-datatables';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
  
 import { ToastrModule } from 'ngx-toastr';
@@ -35,12 +37,15 @@ import { ProfileComponent } from './profile/profile.component';
   imports: [
     CarouselModule.forRoot(),
     BrowserModule,
+    NgbModule,
     AppRoutingModule,
     ReactiveFormsModule,
     SlickCarouselModule,
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    DataTablesModule,
+    NgxDatatableModule
 
   ],
   providers: [
@@ -48,6 +53,9 @@ import { ProfileComponent } from './profile/profile.component';
     AuthGuard,
     SecurePage,
     AuthService
+  ],
+  entryComponents: [
+    LoginComponent
   ],
   // UserService
   bootstrap: [AppComponent],

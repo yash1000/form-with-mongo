@@ -7,6 +7,8 @@ import { Employee} from '../employeemodel.module';
 import { UserService } from "../user.service";
 import { AuthService } from '../auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from '../login/login.component';
 
 declare var $:any;
 
@@ -20,15 +22,51 @@ declare var $:any;
 export class HeaderComponent implements OnInit {
   firstname: string;
   profileForm: FormGroup;
+  closeResult: string;
   postemployee: any;
   firstName:String;
   isloggedin : boolean;
   constructor(  private fb: FormBuilder,
     private toastr: ToastrService,
+    
     private router: Router,
     private userservice: UserService,
-    private authservice:AuthService) { }
-
+    private authservice:AuthService,
+    private modalService: NgbModal,
+    // private activeModal: NgbActiveModal,
+    ) { }
+    open1(content) {
+      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason1(reason)}`;
+      });
+    }
+    open() {
+      this.modalService.open(LoginComponent, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+    }
+    private getDismissReason1(reason: any): string {
+      if (reason === ModalDismissReasons.ESC) {
+        return 'by pressing ESC';
+      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+        return 'by clicking on a backdrop';
+      } else {
+        return  `with: ${reason}`;
+      }
+    }
+    private getDismissReason(reason: any): string {
+      if (reason === ModalDismissReasons.ESC) {
+        return 'by pressing ESC';
+      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+        return 'by clicking on a backdrop';
+      } else {
+        return  `with: ${reason}`;
+      }
+    }
   ngOnInit() {
 
     //for header dynamic view
@@ -82,15 +120,6 @@ export class HeaderComponent implements OnInit {
   }
 
 
-  onshow(){
-     //for register modal show
-    $("#exampleModal").modal("show");
-  }
- 
-  onshow1(){
-     //for login modal show
-    $("#exampleModal11").modal("show");
-  }
   onSubmit(event) {
   //register submit event
     event.preventDefault();
@@ -103,6 +132,8 @@ export class HeaderComponent implements OnInit {
         this.toastr.success('successfully registerd');
         $("#exampleModal").modal("hide");
         this.profileForm.reset();
+        // this.activeModal.close();
+        // this.closeResult     
       }
       else{
         this.toastr.warning('This email is already registered');
@@ -110,7 +141,9 @@ export class HeaderComponent implements OnInit {
       }
       console.log("********************************************")
       console.log(res.status);
-      this.refreshemployeelist();     
+      this.refreshemployeelist();  
+this.modalService.dismissAll();
+         this.open();
     });
     
   }
@@ -142,7 +175,7 @@ export class HeaderComponent implements OnInit {
       //for logout of content
       loggedout(){
         localStorage.removeItem("user");
-        this.router.navigate(['/login']);
+        this.router.navigate(['/header']);
       }
       //take response from node and store it in user service
       refreshemployeelist(){
@@ -167,7 +200,7 @@ export class HeaderComponent implements OnInit {
       //     });
       //   }
       // }
-}
+    }
 
 
 

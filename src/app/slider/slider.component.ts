@@ -13,7 +13,7 @@ export class SliderComponent implements OnInit {
 
   ngOnInit() {
     $('.carousel').carousel({
-      interval: 1000,
+      interval: 2000,
       wrap:true,
     })
   }
@@ -26,7 +26,13 @@ export class SliderComponent implements OnInit {
     {img: "../assets/images/7.jpg"},
     {img: "../assets/images/8.jpg"}
   ];
-  slideConfig = {"slidesToShow": 2, "slidesToScroll": 1};
+  slideConfig = {"slidesToShow": 1,
+   "slidesToScroll": 1,
+   "dots":true,
+   "autoplay":true,
+   "autoplaySpeed": 1000,
+   "centerMode": false,
+  "arrows": true,};
   
   addSlide() {
     this.slides.push({img: "http://placehold.it/350x150/777777"})

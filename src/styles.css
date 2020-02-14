@@ -1,1 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+.slick-prev:before, .slick-next:before{
+    color:black !important
+}
+.sorting{
+    background-color:#90ee90;
+}
+.sorting_asc{
+    background-color: #90ee90;
+}
+#DataTables_Table_0_last{
+    background-color: #90ee90;
+}
+#DataTables_Table_0_next{
+    background-color: #90ee90;
+}
+#DataTables_Table_0_previous{
+    background-color: #90ee90;
+}
+#DataTables_Table_0_first{
+    background-color: #90ee90;
+}
+.paginate_button {
+    background-color: #90ee90;
+}
+.paginate_button.current{
+    background: #90ee90 !important;
+    border: none !important;
+}

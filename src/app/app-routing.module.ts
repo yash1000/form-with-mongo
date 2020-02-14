@@ -13,8 +13,8 @@ import { ProfileComponent } from './profile/profile.component';
 
 
 const routes: Routes = [
-  {path:'',redirectTo:'login',pathMatch:'full'},
-  {path:'login',canActivate:[AuthGuard],component:LoginComponent},
+  {path:'',redirectTo:'header',pathMatch:'full'},
+  // {path:'login',canActivate:[AuthGuard],component:LoginComponent},
   {path:'registration',component:RegistrationComponent},
   {path:'header',component:HeaderComponent},
   {path:'slider',component:SliderComponent},

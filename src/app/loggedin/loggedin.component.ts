@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
+import { Subject } from 'rxjs';
 declare var $:any;
 
 @Component({
@@ -12,6 +13,11 @@ declare var $:any;
 export class LoggedinComponent implements OnInit {
   firstName:String;
   username:String;
+  rows = [];
+  columns;
+  
+  dtOptions: DataTables.Settings = {};
+  // dtTrigger: Subject = new Subject();
   constructor(private authsevice:AuthService,private router:Router,private userservice:UserService) { 
     
     // console.log("((((((((((((((((((((((((((((((((((((((((((((10")
@@ -27,15 +33,42 @@ export class LoggedinComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 3,
+      
+    };
     //gate data from localstorage
     var user=JSON.parse(localStorage.getItem("user"));
     console.log("inside oninit logged in component");
     console.log(user.firstName);
     this.firstName=user.firstName;
+  this.getdata();
+  }
+  getdata(){
+    this.userservice.getemployeelist().subscribe((emp:any)=>{
+      this.rows=emp;
+      this.columns=[
+        {prop:'firstName'},
+        {prop:'lastName'},
+        {prop:'Emailid'}
+      ];
+      // this.dtTrigger.next();
+      console.log("((((((((((((((((((((((((")
+      console.log(emp);
+    })
+  
   }
   loggedout(){
     // this.authsevice.loggedout();
     this.router.navigate(['/login']);
   }
-
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    // this.dtTrigger.unsubscribe();
+  }
+  // private extractData(res: Response) {
+  //   const body = res.json();
+  //   return body.data || {};
+  // }
 }
