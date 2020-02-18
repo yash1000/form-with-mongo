@@ -40,6 +40,7 @@ router.post('/',(req,res)=>{
         lastName:req.body.lastName,
         Emailid:req.body.Emailid,
         password:req.body.password,
+      
     });
     console.log(req.body)
 

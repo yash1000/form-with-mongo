@@ -20,9 +20,10 @@ import { DataTablesModule } from 'angular-datatables';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
- 
+import { DomSanitizer } from '@angular/platform-browser';
 import { ToastrModule } from 'ngx-toastr';
 import { ProfileComponent } from './profile/profile.component';
+import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 
 @NgModule({
   declarations: [
@@ -32,11 +33,13 @@ import { ProfileComponent } from './profile/profile.component';
     RegistrationComponent,
     SliderComponent,
     LoggedinComponent,
-    ProfileComponent
+    ProfileComponent,
+    ForgotPassComponent
   ],
   imports: [
     CarouselModule.forRoot(),
     BrowserModule,
+  
     NgbModule,
     AppRoutingModule,
     ReactiveFormsModule,

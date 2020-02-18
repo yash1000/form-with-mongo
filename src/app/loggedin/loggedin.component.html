@@ -14,7 +14,7 @@
     </thead>
 
     <tbody>
-        <tr *ngFor="let emp of rows.slice(1);let i = index">
+        <tr *ngFor="let emp of rows;let i = index">
             <td>{{i+1}}</td>
             <td>{{ emp.firstName }}</td>
             <td>{{ emp.lastName }}</td>

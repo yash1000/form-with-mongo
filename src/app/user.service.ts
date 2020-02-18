@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import {Employee} from './employeemodel.module';
 import { Employee1 } from './edit.module';
+import { userInfo } from 'os';
 @Injectable()
 export class UserService {
 selectedemployee:Employee;
@@ -16,11 +17,24 @@ readonly baseurl="http://localhost:8000/employee";
   postemployee(emp : Employee){
     return this.https.post(this.baseurl,emp);
   }
-
+  postemail(email: any){
+    return this.https.post("http://localhost:8000/email",email);
+  }
   postemployee2(emp : Employee1){
     // console.log("DATA SENT")
     console.log(emp)
     return this.https.post('http://localhost:8000/editprofile',emp);
+  }
+  postemployee3(image :any){
+    console.log("wefffffffffffffffffffffffffffffffffffffffffffff")
+    console.log(image)
+    return this.https.post('http://localhost:8000/upload',image,{
+      // headers: {
+      //   'Content-Type': 'multipart/form-data',
+      // }  
+      
+      responseType: 'arraybuffer' 
+    });
   }
   /**
    * 

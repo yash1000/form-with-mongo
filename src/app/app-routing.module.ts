@@ -10,14 +10,16 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './authguard.service';
 import { SecurePage } from './securepage.service';
 import { ProfileComponent } from './profile/profile.component';
+import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 
 
 const routes: Routes = [
   {path:'',redirectTo:'header',pathMatch:'full'},
   // {path:'login',canActivate:[AuthGuard],component:LoginComponent},
   {path:'registration',component:RegistrationComponent},
-  {path:'header',component:HeaderComponent},
+  {path:'header',canActivate:[AuthGuard],component:HeaderComponent},
   {path:'slider',component:SliderComponent},
+  {path:'forgot-pass',component:ForgotPassComponent},
   {path:'loggedin',canActivate:[SecurePage],component:LoggedinComponent},
   {path:'profile',canActivate:[SecurePage],component:ProfileComponent}
 ];

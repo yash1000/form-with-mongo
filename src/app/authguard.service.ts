@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate{
             console.log("=======================INSIDE AUTHGAURD")
             console.log(localStorage.getItem('user'))
             if(localStorage.getItem('user')){
-                console.log("Inside IF CONDITION")
+                // console.log("Inside IF CONDITION")
                 this.router.navigate(['loggedin'])
             }
         return true;

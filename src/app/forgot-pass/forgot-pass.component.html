@@ -1,0 +1,10 @@
+
+
+   <form  [formGroup]="profileForm"  (ngSubmit)="onSubmit1($event)" enctype="multipart/form-data">
+    <input type="file" formControlName="image" id="myfile" name="myfile"><br><br>
+
+     <button type="submit" class="btn btn-primary btn1" value="Log In" [disabled]=!profileForm.valid>Submit</button><br>
+   </form>
+
+
+

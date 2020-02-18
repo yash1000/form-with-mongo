@@ -21,19 +21,22 @@
 
 
 <div >
-<form  [formGroup]="profileForm"  (ngSubmit)="onSubmit1($event)"><br>
+<form  [formGroup]="profileForm" method="POST"  (ngSubmit)="onSubmit1($event)" enctype="multipart/form-data"><br>
 Firstname:-<input type="text" id="firstName"formControlName="firstname" placeholder="First name" value="{{firstName}}"><br>
 
   Lastname:-<input type="text" id="lastName"formControlName="lastname" placeholder="Last Name" value="{{lastName}}"><br>
 
   Email:-<input type="text" id="email"formControlName="email" placeholder="Email" value="{{email}}" ><br>
-  <!-- Contect:-<input type="text" id="contect"formControlName="contact" placeholder="contact number" value="{{contactnumber}}"><br>
+  Contect:-<input type="text" id="contect"formControlName="contact" placeholder="contact number" value="{{contact}}"><br>
    Gender:- Male<input type="radio" name="gender" value="male"formControlName="gender" checked><br>
    Female
     <input type="radio" name="gender"formControlName="gender" value="female">  <br>
     Other
-    <input type="radio" name="gender" formControlName="gender"value="other"><br> -->
+    <input type="radio" name="gender" formControlName="gender"value="other"><br>
+    <label for="myfile">Select a file:</label>
+    <input type="file" formControlName="image" (change)="createFormData($event)" id="myfile" name="myfile"><br><br>
     <button type="submit" class="btn btn-primary btn1" value="Log In" [disabled]=!profileForm.valid>Update</button><br>
   </form>
 </div>
 
+<img src="{{img1}}">
