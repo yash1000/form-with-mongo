@@ -28,7 +28,11 @@ table{
     height: 100px;
 
 }
-
+.dp{
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+}
 td{
     border:1px solid black;
     /* padding:1%; */

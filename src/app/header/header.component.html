@@ -26,8 +26,12 @@
             data
          </a>
         </li> -->
+   
         <li class="nav-item " *ngIf="isloggedin">
-          <a class=" nav-link"[routerLink]="['/profile']"> Hello, {{firstName}}</a>
+          <img src="{{img1}}"class="dp">
+        </li>
+        <li class="nav-item " *ngIf="isloggedin">
+          <a class=" nav-link" (click)="open2()"> Hello, {{firstName}}</a>
         </li>
         <li class="nav-item" *ngIf="isloggedin">
           <!-- <button (click)="loggedout()">logout</button> -->

@@ -20,21 +20,29 @@ readonly baseurl="http://localhost:8000/employee";
   postemail(email: any){
     return this.https.post("http://localhost:8000/email",email);
   }
-  postemployee2(emp : Employee1){
-    // console.log("DATA SENT")
-    console.log(emp)
-    return this.https.post('http://localhost:8000/editprofile',emp);
-  }
+  // postemployee2(emp : any){
+  //   // console.log("DATA SENT")
+  //   console.log("ppppppppppppppppppppppppppppppppppppppppppppppppppp1")
+  //   console.log(emp)
+  //   return this.https.post('http://localhost:8000/editprofile',emp,{
+  //     headers: {
+  //       'Content-Type': 'multipart/form-data',
+  //     }  ,
+  //     responseType:'arraybuffer'
+  //   });
+  // }
+  
   postemployee3(image :any){
-    console.log("wefffffffffffffffffffffffffffffffffffffffffffff")
+    console.log("ppppppppppppppppppppppppppppppppppppppppppppppppppp")
     console.log(image)
     return this.https.post('http://localhost:8000/upload',image,{
       // headers: {
       //   'Content-Type': 'multipart/form-data',
       // }  
-      
-      responseType: 'arraybuffer' 
+       
+      // responseType: 'arraybuffer' 
     });
+  
   }
   /**
    * 

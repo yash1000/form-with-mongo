@@ -58,7 +58,8 @@ import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
     AuthService
   ],
   entryComponents: [
-    LoginComponent
+    LoginComponent,
+    ProfileComponent
   ],
   // UserService
   bootstrap: [AppComponent],

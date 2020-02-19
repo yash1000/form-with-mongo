@@ -9,6 +9,7 @@ import { AuthService } from '../auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../login/login.component';
+import { ProfileComponent } from '../profile/profile.component';
 
 declare var $:any;
 
@@ -26,6 +27,7 @@ export class HeaderComponent implements OnInit {
   postemployee: any;
   firstName:String;
   isloggedin : boolean;
+  img1: any;
   constructor(  private fb: FormBuilder,
     private toastr: ToastrService,
     
@@ -41,6 +43,22 @@ export class HeaderComponent implements OnInit {
       }, (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason1(reason)}`;
       });
+    }
+    open2(content) {
+      this.modalService.open(ProfileComponent, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason2(reason)}`;
+      });
+    }
+    private getDismissReason2(reason: any): string {
+      if (reason === ModalDismissReasons.ESC) {
+        return 'by pressing ESC';
+      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+        return 'by clicking on a backdrop';
+      } else {
+        return  `with: ${reason}`;
+      }
     }
     open() {
       this.modalService.open(LoginComponent, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -85,6 +103,18 @@ export class HeaderComponent implements OnInit {
       var user=JSON.parse(localStorage.getItem("user"));
   console.log(user.firstName);
   this.firstName=user.firstName;
+//   console.log("header localstorage");
+//   console.log(user)
+//   console.log(user.filename);
+//   console.log("console log file name")
+//     this.img1="http://localhost:8000/images/"+user.filename;
+if(user.img==null){
+  this.img1="http://localhost:8000/images/"+user.filename;
+  }
+  else{
+      this.img1=user.img;
+  }
+// console.log(this.img1);
   }
   else{
     this.firstName="";

@@ -1,15 +1,13 @@
 const express = require('express');
-const path = require('path');
-const crypto = require('crypto');
+const path = require('path'); 
 const multer = require('multer');
-const gridfsstorage = require('multer-gridfs-storage');
-const grid = require('gridfs-stream');
+// const mainrouter=require('express').Router;
+var router= express.Router();
 const methodoverride = require('method-override');
 var { Employee}=require('./models/model');
-var router =express.Router();
+// const route=require('Router');
 const bodyparser = require('body-parser');
-const cloudinary = require('cloudinary');
-const cloudinaryStorage = require('multer-storage-cloudinary');
+
 const {mongoose}=require('./db');
 
 var employeecontroller =require('./controller/employecontroll');
@@ -29,28 +27,22 @@ app.listen(8000,()=>console.log('serverstarte on : 8000'));
 
 
 
+app.use(express.static('public'));
+console.log(__dirname)
+//Serves all the request which includes /images in the url from Images folder
+app.use('/images', express.static(__dirname + '/public/upload'));
+console.log(__dirname)
 
 
 
 
-
-
-
-
-/**
- * implimented code
- */
-
-
-
-
-//set storage engine
 const storage =multer.diskStorage({
     destination:'./public/upload',
     filename: function(req,file,cb){
         cb(null,file.fieldname + '-' +Date.now() + path.extname(file.originalname));
     }
 })
+
 //init upload
 const upload= multer({
     storage:storage,
@@ -60,7 +52,7 @@ const upload= multer({
     } 
 }).single('file')
 
-// app.get('/',(req,res)=>console.log("jjjjjjjjjjjjjjjjjjjjjjj"));
+
 function checkfiletype(file,cb){
 const filetype= /jpeg|jpg|png|gif/;
 const extname =filetype.test(path.extname(file.originalname).toLowerCase());
@@ -76,15 +68,11 @@ if(mimetype && extname){
 }
 
 
-// app.use(express.static('./public'));
 
 app.post('/upload',(req,res,next)=>{
-// upload(req,res,(err)=>{
-//     if(err){
-//         return res.status(501).json({error:err});
-//     }
-// res.json({originalname:req.file.originalname,uploadname:req.file.filename})
-// })
+
+
+
 
 
 
@@ -102,83 +90,107 @@ var emp =new Employee({
     path:req.body.path,
     size:req.body.size  
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // res.send('test');
-    // console.log("werrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
-    // console.log(req)
     upload(req,res,(err) =>{
            var emp =new Employee({
-            fieldname:req.file.fieldname,
-            originalname:req.file.originalname,
-            encoding:req.file.encoding,
-            mimetype:req.file.mimetype,
-            destination:req.file.destination,
+               _id:req.body._id,
+               firstName:req.body.firstName,
+               lastName:req.body.lastName,
+               Emailid:req.body.Emailid,
+               contact:req.body.contact,
+               gender:req.body.gender,
+            // fieldname:req.file.fieldname,
+            // originalname:req.file.originalname,
+            // encoding:req.file.encoding,
+            // mimetype:req.file.mimetype,
+            // destination:req.file.destination,
             filename:req.file.filename,
-            path:req.file.path,
-            size:req.file.size  
+            // path:req.file.path,
+            // size:req.file.size  
         });
+        console.log(emp.filename)
+        console.log("id with employee")
+        
+      
+        Employee.findOneAndUpdate({_id:req.body._id},{$set:emp},{new:true,upsert: false },(err,docs)=>{
+            console.log("kkkkkkkkkkkkkkkkkkkk")
+            console.log(req.body)
+            
+            console.log(err)
+            console.log("kkkkkllll")
 if(err){
+    console.log("uuuuuuuuuuuuuuuuuuuuuuuuuuuu")
     res.send({
         msg:err
     });
 }
-// else{
-//     res.json({originalname:req.file.originalname,uploadname:req.file.filename})
-// }
+
 else{
    if(req.file==undefined){
+    console.log(";;;;;;;;;;;;")
     res.send({
         msg:"error :no file selected"
     });
    }else{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    //    var y='';
-    // res.sendFile('./public/upload/file-1582012598581.jpg');
-    // console.log()
-       console.log(emp)
-    // res.send({
-    //     msg:"file uploaded",
-    //     msg:req.file.mimetype,
-    //     file:`./public/upload/${req.file.filename}`,
-    // });
-    
-    var v=`./public/upload/${req.file.filename}`
-        res.sendfile(v);
+// console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+//        console.log(emp)
+//        console.log(emp._id)
+//        console.log("docs from response")
+//            console.log(docs)
+//     var v=`./public/upload/${docs.filename}`
+//     var f=
+//         res.sendfile(v);
+console.log(docs)
+console.log("all")
+var imageurl="http://localhost:8000/images/"+(docs.filename);
+console.log(imageurl);
+console.log("image url")
+console.log("url in response")
+console.log(imageurl);
+res.send({
+    msg:imageurl
+})
    }
 }
     })
 })
+})
+
+
+app.post('/checkuser',(req,res)=>{
+    var email = req.body.Emailid1;
+    var pass = req.body.password1;
+    var user = { name: email,pass1:pass}
+    console.log("sdfghjkfjk")
+    console.log(req.body);
+ 
+    Employee.findOne({Emailid:email},(err,docs)=>{
+        console.log("DOCS");
+        console.log(docs)
+        if(docs){
+
+            if(docs.password == pass){
+                jwt.sign(user,'secretkey',(err,token)=>{
+               
+                res.send({
+                    status:1,
+                    message: docs,
+                    token:token
+                }) })
+            }else{
+                res.send({
+                    status:2,
+                    message: "Credentials Invalid"
+                })
+            }
+            
+        }else{
+            res.send({
+                status: 0,
+                message: 'not found'
+            })
+        }
+    })
+    })
 
 
 
@@ -226,13 +238,66 @@ else{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    // app.use(multer.array());
+
+//     app.post('/editprofile',(req,res)=>{
+    
+// console.log("edit profile")
+      
+// console.log(req.body);
+
+//     upload(req,res,(err) =>{
+//         var emp =new Employee({
+//          fieldname:req.file.fieldname,
+//          originalname:req.file.originalname,
+//          encoding:req.file.encoding,
+//          mimetype:req.file.mimetype,
+//          destination:req.file.destination,
+//          filename:req.file.filename,
+//          path:req.file.path,
+//          size:req.file.size  
+//      });})
+//      console.log("sddddddddd")
+//         Employee.findOneAndUpdate({_id:req.body._id},{$set:req.body},{new:true,upsert: true },(err,docs)=>{
+//             console.log(req.body);  
+//             console.log("----------------"+req.body._id)
+//             console.log("****************************")
+//                     // Employee.findOne({Emailid:empupdate.Emailid})
+//                     console.log(docs)
+//                     if(docs){
+//                         // docs=req.body;
+//                             res.send({
+//                                 status:1,
+//                                 message: docs
+//                                 // token:token
+//                             }) 
+//                     }else{
+//                         res.send({
+//                             status: 0,
+//                             message: 'not found',
+//                             message1:err
+//                         })
+//                     }
+            
+            
+//                 })
+//                 });
 
 // const mongouri = 'mongodb://localhost:27017/formdb';
 // // const conn = mongoose.createConnection(mongouri);
-
-
-
-
 // let gfs;
 // Employee.once('open',()=>{
 //   gfs = Grid(conn.db, mongoose.mongo);
@@ -279,41 +344,6 @@ else{
     // const parser = multer({ storage: storage });
 
 
-app.post('/checkuser',(req,res)=>{
-    var email = req.body.Emailid1;
-    var pass = req.body.password1;
-    var user = { name: email,pass1:pass}
-    console.log("sdfghjkfjk")
-    console.log(req.body);
-    
-    Employee.findOne({Emailid:email},(err,docs)=>{
-        console.log("DOCS");
-        console.log(docs)
-        if(docs){
-
-            if(docs.password == pass){
-                jwt.sign(user,'secretkey',(err,token)=>{
-               
-                res.send({
-                    status:1,
-                    message: docs,
-                    token:token
-                }) })
-            }else{
-                res.send({
-                    status:2,
-                    message: "Credentials Invalid"
-                })
-            }
-            
-        }else{
-            res.send({
-                status: 0,
-                message: 'not found'
-            })
-        }
-    })
-    })
 
 /**
  * user with token
@@ -336,14 +366,6 @@ app.post('/checkuser',(req,res)=>{
 // }
 // })
 // }
-
-
-
-
-
-
-
-
 
     // app.post('/spp/post',verifyToken,(req,res)=>{
     //     res.json({
@@ -393,7 +415,7 @@ app.post('/checkuser',(req,res)=>{
 //     .then(newImage => res.json(newImage))
 //     .catch(err => console.log(err));
 // });
-app.post('/editprofile',(req,res)=>{
+
     // var empupdate ={
     
     //     firstName:req.body.firstname,
@@ -413,58 +435,17 @@ app.post('/editprofile',(req,res)=>{
     //     }
     // )
 
-    console.log(req.body);
 
     // Employee.update(
     //     {contact:req.body.contact},
     //     {gender:req.body.gender})
         // console.log(Employee.body);
         // console.log("oooooooooooooooooooooooooooooooooooooooooooooooo")
-    Employee.findOneAndUpdate({_id:req.body._id},{$set:req.body},{new:true,upsert: true },(err,docs)=>{
-console.log(req.body);  
-console.log("----------------"+req.body._id)
-console.log("****************************")
-        // Employee.findOne({Emailid:empupdate.Emailid})
-        console.log(docs)
-        if(docs){
-            // docs=req.body;
-                res.send({
-                    status:1,
-                    message: docs
-                    // token:token
-                }) 
-        }else{
-            res.send({
-                status: 0,
-                message: 'not found'
-            })
-        }
-
-
-    })
-    });
-
-
-
-
-
-
-
-
-
-
-//     app.post('/email',(req,res)=>{
+   //     app.post('/email',(req,res)=>{
 //         var emp =new Employee({
-           
-//             image:req.body.image,
-            
+//             image:req.body.image,  
 //         } );
-
-
 //         console.log(req.body)
-
-
-
 //         Employee.findOneAndUpdate({_id:req.body._id},{$set:req.body},{new:true,upsert: true },(err,docs)=>{
 // if(docs){
 //     res.send({
@@ -481,11 +462,4 @@ console.log("****************************")
 // }
 //         })
 //     });
-    
-
-
-
-
-
-
 app.use('/employee',employeecontroller)

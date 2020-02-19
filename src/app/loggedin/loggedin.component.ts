@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
+import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
+import { ProfileComponent } from '../profile/profile.component';
 declare var $:any;
 
 @Component({
@@ -15,10 +17,25 @@ export class LoggedinComponent implements OnInit {
   username:String;
   rows = [];
   columns;
-  
+  open2(content) {
+    this.modalService.open(ProfileComponent, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason2(reason)}`;
+    });
+  }
+  private getDismissReason2(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
   dtOptions: DataTables.Settings = {};
   // dtTrigger: Subject = new Subject();
-  constructor(private authsevice:AuthService,private router:Router,private userservice:UserService) { 
+  constructor( private modalService: NgbModal,private authsevice:AuthService,private router:Router,private userservice:UserService) { 
     
     // console.log("((((((((((((((((((((((((((((((((((((((((((((10")
     // this.userservice.getusername().subscribe(
