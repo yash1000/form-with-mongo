@@ -17,7 +17,7 @@ var employeecontroller =require('./controller/employecontroll');
 const app = express();
 const cors =require('cors');
 const jwt=require('jsonwebtoken');
-
+var nodemailer = require('nodemailer');
 app.use(bodyparser.json());
 app.use(methodoverride('_method'));
 app.use(cors({ origin:'http://localhost:4200'}));
@@ -32,7 +32,6 @@ app.listen(8000,()=>console.log('serverstarte on : 8000'));
 
 app.use(express.static('public'));
 console.log(__dirname)
-//Serves all the request which includes /images in the url from Images folder
 app.use('/images', express.static(__dirname + '/public/upload'));
 console.log(__dirname)
 
@@ -69,6 +68,13 @@ if(mimetype && extname){
     cb('ERROR:images only');
 }
 }
+
+
+
+
+
+
+
 app.post('/delete',(req,res)=>{
     
 console.log("id")
@@ -87,16 +93,6 @@ else{
 
 
 app.post('/upload',(req,res,next)=>{
-
-
-
-
-
-
-
-
-
-
 var emp =new Employee({
     fieldname:req.body.fieldname,
     originalname:req.body.originalname,

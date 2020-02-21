@@ -4,7 +4,7 @@ var objectid = require('mongoose').Types.ObjectId;
 var { Employee}=require('../models/model');
 var { Employee1}=require('../models/model');
 const {mongoose}=require('../db');
-
+var nodemailer = require('nodemailer');
 router.get('/',(req,res)=>{
 
     
@@ -34,6 +34,72 @@ router.get('/:id',(req,res)=>{
     });
 });
 
+
+
+//   transporter.verify((err, success) => {
+//     if (err){ console.error(err);}
+//     else{
+//     console.log('Your config is correct');}
+// });
+
+
+
+
+
+
+
+
+
+// var transporter = nodemailer.createTransport(smtpTransport({
+//     debug: false,
+//     requireTLS: true,
+//     host: 'smtp.gmail.com',
+//     port: 25,
+//     secureConnection: false,
+//     auth: {
+//         user: 'yashs.inexture@gmail.com',
+//         pass: 'yash@1000'
+
+//     },
+//     tls: {
+//         ciphers:'SSLv3',
+//         rejectUnauthorized: false
+//     }
+// }));
+
+//  transporter.sendMail({
+//         from: "yashs.inexture@gmail.com",
+//         to: "yashsanja1@gmail.com",
+//         subject: "Subject goes here",
+//         text: "Your text here"
+//         }, function(error, response) {
+//         if (error) {
+//             console.log(error);
+//         } else {
+//             console.log('Email was successfully sent.');
+//         }
+//         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 router.post('/',(req,res)=>{
     var emp =new Employee({
         firstName:req.body.firstName,
@@ -58,6 +124,33 @@ router.post('/',(req,res)=>{
                         status:1,
                         message: docs,
                     });
+                    var transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            host: 'smtp.gmail.com',
+                    port: 465,
+                    secure: true,
+                          user: 'noreply13644@gmail.com',
+                          pass: 'yash@1000'
+                        }
+                      });
+                      
+                    
+                      var mailOptions = {
+                        from: 'noreply13644@gmail.com',
+                        to: docs.Emailid,
+                        subject: 'Successfully registered',
+                        text: `your username is ${docs.firstName} ${docs.lastName}
+your password is ${docs.password}`,
+                      };
+                    transporter.sendMail(mailOptions, function(error, info){
+                        if (error) {
+                            console.log("err is")
+                          console.log(error);
+                        } else {
+                          console.log('Email sent: ' + info.response);
+                        }
+                      });
                 }
                 else{
                     console.log('error in employee retrevation'+JSON.stringify(err,undefine,2));
