@@ -1,0 +1,77 @@
+
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <form  [formGroup]="profileForm" method="POST"  (ngSubmit)="onSubmit1($event)" enctype="multipart/form-data"><br>
+      <table>
+        <tr>
+          <td>
+            Firstname:-
+          </td>
+          <td>
+            <input type="text" id="firstName"formControlName="firstname" placeholder="First name" ><br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Lastname:-
+          </td>
+          <td>
+            <input type="text" id="lastName"formControlName="lastname" placeholder="Last Name" ><br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Email:-
+          </td>
+          <td>
+            <input type="text" id="email"formControlName="email" placeholder="Email" ><br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Contect:-
+          </td>
+          <td>
+            <input type="text" id="contect"formControlName="contact" placeholder="contact number" ><br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Gender:-
+          </td>
+          <td>
+            Male<input type="radio" name="gender" value="male"formControlName="gender" checked><br>
+            Female<input type="radio" name="gender"formControlName="gender" value="female">  <br>
+             Other<input type="radio" name="gender" formControlName="gender"value="other"><br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="myfile">Select a file:</label>
+          </td>
+          <td>
+            <input type="file" formControlName="image" (change)="createFormData($event)" id="myfile" name="myfile"><br><br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button type="submit" class="btn btn-primary btn1" [disabled]=!profileForm.valid>Update</button><br>
+          </td>
+        </tr>
+      
+      </table>
+       </form>
+      </div>
+     <div *ngIf="this.rows.filename"> 
+  <img src="{{img1}}"/>
+</div>
+<div *ngIf="!this.rows.filename">
+  <h4>No image</h4>
+</div>
+  </div>

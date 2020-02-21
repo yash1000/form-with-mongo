@@ -51,6 +51,9 @@ readonly baseurl="http://localhost:8000/employee";
   postemployee1(emp1 : Employee1){
     return this.https.post('http://localhost:8000/checkuser',emp1);
   }
+  postemployee4(emp1 : any){
+    return this.https.post('http://localhost:8000/updateinlist',emp1);
+  }
   /**
    * get users from database
    */
@@ -59,10 +62,12 @@ getemployeelist(){
 }
 /**
  * 
- * @param id wise delete in database
+ * @param id wise delete in database`
  */
-deleteemployerr(id:string){
-return this.https.delete(this.baseurl+`/${id}`);
+deleteemployerr(id:any){
+ console.log(id)
+ console.log("id")
+return this.https.post('http://localhost:8000/delete',{id});
 }
 /**
  * with token

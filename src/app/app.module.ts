@@ -24,6 +24,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ToastrModule } from 'ngx-toastr';
 import { ProfileComponent } from './profile/profile.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
     SliderComponent,
     LoggedinComponent,
     ProfileComponent,
-    ForgotPassComponent
+    ForgotPassComponent,
+    ModalComponent
   ],
   imports: [
     CarouselModule.forRoot(),

@@ -14,28 +14,21 @@ export class ForgotPassComponent implements OnInit {
   ngOnInit() {
 
     this.profileForm = this.fb.group({
-      image:['',[Validators.required]],
+      Emailid1:['',[Validators.required]],
     });
   
   }
-  
-
-// _id:Number;
   onSubmit1(event) {
     event.preventDefault();
-    //subscribe to node
-    var user=JSON.parse(localStorage.getItem('user'));
-    console.log(user._id);
+    
     console.log(this.profileForm.value);
     this.userservice.postemail(this.profileForm.value).subscribe((res:any) => {
-      if(res.status==1){
-        console.log("oh yeh")
-        // console.log(res) 
-      }
-  
-      else{
-console.log("oh no"+res)
-      }
+//       if(res.status==1){
+//         console.log("oh yeh")
+//       }
+//       else{
+// console.log("oh no"+res)
+//       }
     });
   }
 

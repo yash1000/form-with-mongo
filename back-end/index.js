@@ -7,7 +7,10 @@ const methodoverride = require('method-override');
 var { Employee}=require('./models/model');
 // const route=require('Router');
 const bodyparser = require('body-parser');
-
+var formidable = require('formidable'),
+    http = require('http'),
+    util = require('util');
+ 
 const {mongoose}=require('./db');
 
 var employeecontroller =require('./controller/employecontroll');
@@ -66,6 +69,20 @@ if(mimetype && extname){
     cb('ERROR:images only');
 }
 }
+app.post('/delete',(req,res)=>{
+    
+console.log("id")
+console.log(req.body.id);
+res.send(req.body)
+Employee.findOneAndDelete({_id:req.body.id},(err,docs)=>{
+if(docs){
+    console.log("remove successfully")
+}
+else{
+    console.log("not removed")
+}
+})
+})
 
 
 
@@ -98,14 +115,7 @@ var emp =new Employee({
                Emailid:req.body.Emailid,
                contact:req.body.contact,
                gender:req.body.gender,
-            // fieldname:req.file.fieldname,
-            // originalname:req.file.originalname,
-            // encoding:req.file.encoding,
-            // mimetype:req.file.mimetype,
-            // destination:req.file.destination,
             filename:req.file.filename,
-            // path:req.file.path,
-            // size:req.file.size  
         });
         console.log(emp.filename)
         console.log("id with employee")
@@ -139,13 +149,9 @@ else{
 //     var v=`./public/upload/${docs.filename}`
 //     var f=
 //         res.sendfile(v);
-console.log(docs)
-console.log("all")
+
 var imageurl="http://localhost:8000/images/"+(docs.filename);
-console.log(imageurl);
-console.log("image url")
-console.log("url in response")
-console.log(imageurl);
+
 res.send({
     msg:imageurl
 })
@@ -191,9 +197,100 @@ app.post('/checkuser',(req,res)=>{
         }
     })
     })
+    // app.get('')
+
+
+    app.post('/updateinlist',(req,res)=>{
+
+        upload(req,res,(err) =>{
+            var emp =new Employee({
+                _id:req.body._id,
+                firstName:req.body.firstName,
+                lastName:req.body.lastName,
+                Emailid:req.body.Emailid,
+                contact:req.body.contact,
+                gender:req.body.gender,
+             filename:req.file.filename,
+         });
+         Employee.findOneAndUpdate({_id:req.body._id},{$set:emp},{new:true,upsert: false },(err,docs)=>{
+            if(err){
+                res.send({
+                    msg:"sorry"
+                })
+            }
+            else{
+                res.send({
+                    msg:"success"
+                })
+            }
+            
+         })
+            if(err){
+                console.log("err")
+                console.log(err)
+            }
+            else{
+                console.log(req.file)
+                console.log("in")
+                console.log(emp._id)
+            }
+        })
+    })
+        
+    //     var form = new formidable.IncomingForm();
+ 
+    //     form.parse(req, function(err, fields, files) {
+          
+    //       console.log("in form")
+    //     console.log(fields._id)
+    //     console.log(files)
+    // })
+
+        // var v=fields;clg
+     
+
+  
 
 
 
+
+
+        // http.createServer(function(req, res) {
+            // if (req.url == '/updateinlist' && req.method.toLowerCase() == 'post') {
+              // parse a file upload
+            //   var form = new formidable.IncomingForm();
+           
+            //   form.parse(req, function(err, fields, files) {
+            //       console.log("inside form")
+            // console.log(fields)
+            // console.log(files)
+            // console.log(err)
+            //   });
+           
+            //   return;
+            // }
+// var emp =new Employee({
+//     fieldname:req.body.fieldname,
+//     originalname:req.body.originalname,
+//     encoding:req.body.encoding,
+//     mimetype:req.body.mimetype,
+//     destination:req.body.destination,
+//     filename:req.body.filename,
+//     path:req.body.path,
+//     size:req.body.size  
+// });
+//         upload(req,res,(err) =>{
+//             var emp =new Employee({
+//                 _id:req.body._id,
+//                 firstName:req.body.firstName,
+//                 lastName:req.body.lastName,
+//                 Emailid:req.body.Emailid,
+//                 contact:req.body.contact,
+//                 gender:req.body.gender,
+//              filename:req.file.filename,
+//          });
+        // console.log(emp)
+  
 
 
 
@@ -441,25 +538,8 @@ app.post('/checkuser',(req,res)=>{
     //     {gender:req.body.gender})
         // console.log(Employee.body);
         // console.log("oooooooooooooooooooooooooooooooooooooooooooooooo")
-   //     app.post('/email',(req,res)=>{
-//         var emp =new Employee({
-//             image:req.body.image,  
-//         } );
-//         console.log(req.body)
-//         Employee.findOneAndUpdate({_id:req.body._id},{$set:req.body},{new:true,upsert: true },(err,docs)=>{
-// if(docs){
-//     res.send({
-//         status:1,
-//         message: docs
-//         // token:token
-//     }) 
-// }
-// else{
-//     res.send({
-//         status: 0,
-//         message: 'not found'
-//     })
-// }
-//         })
-//     });
+       app.post('/email',(req,res)=>{
+
+       console.log(req.body)
+    });
 app.use('/employee',employeecontroller)

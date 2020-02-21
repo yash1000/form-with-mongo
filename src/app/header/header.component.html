@@ -16,16 +16,7 @@
             login
          </a>
         </li>
-        <!-- <li class="nav-item">
 
-
-          <a href="#" class="nav-link" data-toggle="modal"  data-target="#exampleModalCenter">Login</a>
-        </li> -->
-        <!-- <li class="nav-item " >
-          <a class="nav-link" data-toggle="modal" data-target="#exampleModal1">
-            data
-         </a>
-        </li> -->
    
         <li class="nav-item " *ngIf="isloggedin">
           <img src="{{img1}}"class="dp">
@@ -34,7 +25,6 @@
           <a class=" nav-link" (click)="open2()"> Hello, {{firstName}}</a>
         </li>
         <li class="nav-item" *ngIf="isloggedin">
-          <!-- <button (click)="loggedout()">logout</button> -->
           <a class="nav-link" (click)="loggedout()">
             Logout
          </a>

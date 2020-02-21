@@ -95,31 +95,22 @@ export class HeaderComponent implements OnInit {
       this.isloggedin = false
     }
     console.log("INSIDE ONINIT OF HEADER")
-
-    //for display of firstname from localstorage in header
-
   var user=JSON.parse(localStorage.getItem("user"));
   if(localStorage.getItem('user')){
       var user=JSON.parse(localStorage.getItem("user"));
   console.log(user.firstName);
   this.firstName=user.firstName;
-//   console.log("header localstorage");
-//   console.log(user)
-//   console.log(user.filename);
-//   console.log("console log file name")
-//     this.img1="http://localhost:8000/images/"+user.filename;
+
 if(user.img==null){
   this.img1="http://localhost:8000/images/"+user.filename;
   }
   else{
       this.img1=user.img;
   }
-// console.log(this.img1);
   }
   else{
     this.firstName="";
   }
-  //validations for register pages
     this.refreshemployeelist();
     this.profileForm = this.fb.group({
       firstName: ["", [Validators.required, Validators.minLength(3)]],
@@ -151,19 +142,14 @@ if(user.img==null){
 
 
   onSubmit(event) {
-  //register submit event
     event.preventDefault();
-  
-//add to database req
     this.userservice.postemployee(this.profileForm.value).subscribe((res:any) => {
       console.log("successfulLy added to database" + this.profileForm.value);
       
       if(res.status){
         this.toastr.success('successfully registerd');
         $("#exampleModal").modal("hide");
-        this.profileForm.reset();
-        // this.activeModal.close();
-        // this.closeResult     
+        this.profileForm.reset();    
       }
       else{
         this.toastr.warning('This email is already registered');

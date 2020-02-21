@@ -11,6 +11,7 @@ import { AuthGuard } from './authguard.service';
 import { SecurePage } from './securepage.service';
 import { ProfileComponent } from './profile/profile.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
+import { ModalComponent } from './modal/modal.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   // {path:'login',canActivate:[AuthGuard],component:LoginComponent},
   {path:'registration',component:RegistrationComponent},
   {path:'header',canActivate:[AuthGuard],component:HeaderComponent},
+  {path:'modal',canActivate:[AuthGuard],component:ModalComponent},
   {path:'slider',component:SliderComponent},
   {path:'forgot-pass',component:ForgotPassComponent},
   {path:'loggedin',canActivate:[SecurePage],component:LoggedinComponent},
