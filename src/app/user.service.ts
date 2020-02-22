@@ -14,33 +14,22 @@ readonly baseurl="http://localhost:8000/employee";
    * 
    * @param emp will send all form values as object
    */
-  postemployee(emp : Employee){
+  registration(emp : Employee){
     return this.https.post(this.baseurl,emp);
   }
-  postemail(email: any){
+  
+  forgotpassword(email: any){
     return this.https.post("http://localhost:8000/email",email);
   }
-  // postemployee2(emp : any){
-  //   // console.log("DATA SENT")
-  //   console.log("ppppppppppppppppppppppppppppppppppppppppppppppppppp1")
-  //   console.log(emp)
-  //   return this.https.post('http://localhost:8000/editprofile',emp,{
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data',
-  //     }  ,
-  //     responseType:'arraybuffer'
-  //   });
-  // }
-  
-  postemployee3(image :any){
-    console.log("ppppppppppppppppppppppppppppppppppppppppppppppppppp")
-    console.log(image)
+
+  resetpassword(emp:any){
+    return this.https.post('http://localhost:8000/reset',emp,{
+
+
+    })
+  }
+  profile(image :any){
     return this.https.post('http://localhost:8000/upload',image,{
-      // headers: {
-      //   'Content-Type': 'multipart/form-data',
-      // }  
-       
-      // responseType: 'arraybuffer' 
     });
   
   }
@@ -48,10 +37,10 @@ readonly baseurl="http://localhost:8000/employee";
    * 
    * @param emp1 will send login form values as object
    */
-  postemployee1(emp1 : Employee1){
+  login(emp1 : Employee1){
     return this.https.post('http://localhost:8000/checkuser',emp1);
   }
-  postemployee4(emp1 : any){
+  update(emp1 : any){
     return this.https.post('http://localhost:8000/updateinlist',emp1);
   }
   /**

@@ -27,7 +27,7 @@
             <td>{{ emp.firstName }}</td>
             <td>{{ emp.lastName }}</td>
             <td>{{ emp.Emailid }}</td>
-            <td><button (click)="value($event);open2()" value="{{emp._id}}" id="{{i}}">update</button></td>
+            <td><button (click)="getvaluebeforemodalopen($event);open2()" value="{{emp._id}}" id="{{i}}">update</button></td>
             <td><button (click)="ondelete(emp._id,profileForm)" value="{{emp._id}}" id="{{i}}">delete</button></td>
         </tr>
       

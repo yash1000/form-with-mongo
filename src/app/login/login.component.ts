@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
   onSubmit1(event) {
     event.preventDefault();
     //subscribe to node
-    this.userservice.postemployee1(this.profileForm.value).subscribe((res:any) => {
+    this.userservice.login(this.profileForm.value).subscribe((res:any) => {
       if(res.status==1){
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         console.log(res);
@@ -62,5 +62,8 @@ export class LoginComponent implements OnInit {
   closeModal() {
     this.activeModal.close();
   }
-
+  reset(){
+    this.router.navigate(['/forgot-pass']);
+    this.closeModal();
+  }
 }

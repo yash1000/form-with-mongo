@@ -1,11 +1,9 @@
 
-
-   <form  [formGroup]="profileForm"  (ngSubmit)="onSubmit1($event)" enctype="multipart/form-data">
-    Email:-
-    <input type="text" id="login"formControlName="Emailid1" [(ngModel)]="username" name="login" placeholder="Email"><br>
-
-     <button type="submit" class="btn btn-primary btn1" value="Log In" [disabled]=!profileForm.valid>Submit</button><br>
-   </form>
+<form  [formGroup]="profileForm"  (ngSubmit)="onSubmit1($event)" enctype="multipart/form-data">
+     Email:-
+      <input type="text" id="login"formControlName="Emailid1" [(ngModel)]="username" name="login" placeholder="Email"><br>
+      <button type="submit" class="btn btn-primary btn1" value="Log In" [disabled]=!profileForm.valid>Submit</button><br>
+</form>
 
 
 

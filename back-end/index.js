@@ -1,18 +1,17 @@
 const express = require('express');
 const path = require('path'); 
 const multer = require('multer');
-// const mainrouter=require('express').Router;
 var router= express.Router();
 const methodoverride = require('method-override');
 var { Employee}=require('./models/model');
-// const route=require('Router');
 const bodyparser = require('body-parser');
 var formidable = require('formidable'),
     http = require('http'),
     util = require('util');
  
 const {mongoose}=require('./db');
-
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('myTotalySecretKey');
 var employeecontroller =require('./controller/employecontroll');
 const app = express();
 const cors =require('cors');
@@ -29,15 +28,13 @@ app.listen(8000,()=>console.log('serverstarte on : 8000'));
 
 
 
-
+//using folder statically
 app.use(express.static('public'));
-console.log(__dirname)
 app.use('/images', express.static(__dirname + '/public/upload'));
-console.log(__dirname)
 
 
 
-
+//multer storage method
 const storage =multer.diskStorage({
     destination:'./public/upload',
     filename: function(req,file,cb){
@@ -45,7 +42,7 @@ const storage =multer.diskStorage({
     }
 })
 
-//init upload
+//init upload for multer
 const upload= multer({
     storage:storage,
     limits:{fileSize:10000000},
@@ -54,14 +51,11 @@ const upload= multer({
     } 
 }).single('file')
 
-
+//validation in multer
 function checkfiletype(file,cb){
 const filetype= /jpeg|jpg|png|gif/;
 const extname =filetype.test(path.extname(file.originalname).toLowerCase());
-
 const mimetype = filetype.test(file.mimetype);
-
-
 if(mimetype && extname){
     return cb(null,true)
 }else{
@@ -69,40 +63,32 @@ if(mimetype && extname){
 }
 }
 
-
-
-
-
-
-
+//delete api
 app.post('/delete',(req,res)=>{
-    
-console.log("id")
-console.log(req.body.id);
-res.send(req.body)
-Employee.findOneAndDelete({_id:req.body.id},(err,docs)=>{
-if(docs){
-    console.log("remove successfully")
-}
-else{
-    console.log("not removed")
-}
-})
+    res.send(req.body)
+    Employee.findOneAndDelete({_id:req.body.id},(err,docs)=>{
+    if(docs){
+        console.log("remove successfully")
+    }
+    else{
+        console.log("not removed")
+    }
+    })
 })
 
 
-
+//upload image in multur api
 app.post('/upload',(req,res,next)=>{
-var emp =new Employee({
-    fieldname:req.body.fieldname,
-    originalname:req.body.originalname,
-    encoding:req.body.encoding,
-    mimetype:req.body.mimetype,
-    destination:req.body.destination,
-    filename:req.body.filename,
-    path:req.body.path,
-    size:req.body.size  
-});
+    var emp =new Employee({
+        fieldname:req.body.fieldname,
+        originalname:req.body.originalname,
+        encoding:req.body.encoding,
+        mimetype:req.body.mimetype,
+        destination:req.body.destination,
+        filename:req.body.filename,
+        path:req.body.path,
+        size:req.body.size  
+    });
     upload(req,res,(err) =>{
            var emp =new Employee({
                _id:req.body._id,
@@ -113,30 +99,19 @@ var emp =new Employee({
                gender:req.body.gender,
             filename:req.file.filename,
         });
-        console.log(emp.filename)
-        console.log("id with employee")
-        
-      
         Employee.findOneAndUpdate({_id:req.body._id},{$set:emp},{new:true,upsert: false },(err,docs)=>{
-            console.log("kkkkkkkkkkkkkkkkkkkk")
-            console.log(req.body)
-            
-            console.log(err)
-            console.log("kkkkkllll")
-if(err){
-    console.log("uuuuuuuuuuuuuuuuuuuuuuuuuuuu")
-    res.send({
-        msg:err
-    });
-}
-
-else{
-   if(req.file==undefined){
-    console.log(";;;;;;;;;;;;")
-    res.send({
-        msg:"error :no file selected"
-    });
-   }else{
+            if(err){
+                res.send({
+                    msg:err
+                });
+            }
+            else{
+            if(req.file==undefined){
+                res.send({
+                    msg:"error :no file selected"
+                });
+            }else{
+       //file send code
 // console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
 //        console.log(emp)
 //        console.log(emp._id)
@@ -146,38 +121,32 @@ else{
 //     var f=
 //         res.sendfile(v);
 
-var imageurl="http://localhost:8000/images/"+(docs.filename);
+                var imageurl="http://localhost:8000/images/"+(docs.filename);
 
-res.send({
-    msg:imageurl
-})
-   }
-}
+                res.send({
+                    msg:imageurl
+                })
+              }
+            }
+         })
     })
 })
-})
 
-
+//login api
 app.post('/checkuser',(req,res)=>{
     var email = req.body.Emailid1;
     var pass = req.body.password1;
     var user = { name: email,pass1:pass}
-    console.log("sdfghjkfjk")
-    console.log(req.body);
- 
     Employee.findOne({Emailid:email},(err,docs)=>{
-        console.log("DOCS");
-        console.log(docs)
         if(docs){
-
             if(docs.password == pass){
-                jwt.sign(user,'secretkey',(err,token)=>{
-               
+                // jwt.sign(user,'secretkey',(err,token)=>{
                 res.send({
                     status:1,
                     message: docs,
-                    token:token
-                }) })
+                    // token:token
+                }) 
+            // })
             }else{
                 res.send({
                     status:2,
@@ -193,11 +162,9 @@ app.post('/checkuser',(req,res)=>{
         }
     })
     })
-    // app.get('')
 
-
+//update employees api
     app.post('/updateinlist',(req,res)=>{
-
         upload(req,res,(err) =>{
             var emp =new Employee({
                 _id:req.body._id,
@@ -226,82 +193,67 @@ app.post('/checkuser',(req,res)=>{
                 console.log(err)
             }
             else{
-                console.log(req.file)
-                console.log("in")
-                console.log(emp._id)
             }
         })
     })
+
+    //reset passeord api
+    app.post('/reset',(req,res)=>{
+        Employee.findOne({token:req.body.token},(err,docs)=>{
+            if(docs){
+                console.log(docs)
+                console.log("find")
+            }else{
+                console.log(err)
+                console.log("did not find")
+            }
+                })})
+               app.post('/email',(req,res)=>{
         
-    //     var form = new formidable.IncomingForm();
- 
-    //     form.parse(req, function(err, fields, files) {
-          
-    //       console.log("in form")
-    //     console.log(fields._id)
-    //     console.log(files)
-    // })
-
-        // var v=fields;clg
-     
-
-  
-
-
-
-
-
-        // http.createServer(function(req, res) {
-            // if (req.url == '/updateinlist' && req.method.toLowerCase() == 'post') {
-              // parse a file upload
-            //   var form = new formidable.IncomingForm();
-           
-            //   form.parse(req, function(err, fields, files) {
-            //       console.log("inside form")
-            // console.log(fields)
-            // console.log(files)
-            // console.log(err)
-            //   });
-           
-            //   return;
-            // }
-// var emp =new Employee({
-//     fieldname:req.body.fieldname,
-//     originalname:req.body.originalname,
-//     encoding:req.body.encoding,
-//     mimetype:req.body.mimetype,
-//     destination:req.body.destination,
-//     filename:req.body.filename,
-//     path:req.body.path,
-//     size:req.body.size  
-// });
-//         upload(req,res,(err) =>{
-//             var emp =new Employee({
-//                 _id:req.body._id,
-//                 firstName:req.body.firstName,
-//                 lastName:req.body.lastName,
-//                 Emailid:req.body.Emailid,
-//                 contact:req.body.contact,
-//                 gender:req.body.gender,
-//              filename:req.file.filename,
-//          });
-        // console.log(emp)
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+               console.log(req.body)
+               const encryptedString = cryptr.encrypt(req.body);
+            //    console.log(docs.Emailid)
+               console.log(encryptedString);
+               var emp ={
+               token:encryptedString
+            }
+               Employee.findOneAndUpdate({Emailid:req.body.Emailid1},{$set:emp},{new:true},(err,docs)=>{
+                   if(docs){
+                       console.log(docs)              
+                       var transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                            host: 'smtp.gmail.com',
+                    port: 465,
+                    secure: true,
+                          user: 'noreply13644@gmail.com',
+                          pass: 'yash@1000'
+                        }
+                      });
+                      
+                    
+                      var mailOptions = {
+                        from: 'noreply13644@gmail.com',
+                        to: docs.Emailid,
+                        subject: 'Successfully registered',
+                        html: `<a href="http://localhost:4200/resetpassword?token=${encryptedString}">http://localhost:4200/resetpassword?token=${encryptedString}</a>`,
+                      };
+                    transporter.sendMail(mailOptions, function(error, info){
+                        if (error) {
+                            console.log("err is")
+                          console.log(error);
+                        } else {
+                          console.log('Email sent: ' + info.response);
+                        }
+                      });
+                   }
+                   else{
+                       console.log(err)
+                       console.log("did not find")
+                       console.log("inside find")
+                   }
+               })
+            });
 
 
 
@@ -534,8 +486,5 @@ app.post('/checkuser',(req,res)=>{
     //     {gender:req.body.gender})
         // console.log(Employee.body);
         // console.log("oooooooooooooooooooooooooooooooooooooooooooooooo")
-       app.post('/email',(req,res)=>{
-
-       console.log(req.body)
-    });
+       
 app.use('/employee',employeecontroller)

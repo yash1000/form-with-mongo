@@ -1,3 +1,5 @@
+
+/* custom css*/
 .color1{
     background-color:  #90ee90 ;
 }input{
@@ -5,7 +7,6 @@
     border-radius: 5px;
     border:1px solid black;
     padding:5px;
-    /* margin:2%; */
 }
 input.ng-invalid.ng-touched{
     border:1px solid red;
@@ -20,13 +21,10 @@ span{
 .img1{
   margin-left: 32% !important;
 }
-
-
 table{
     border:1px solid black;
     width: -100px;
     height: 100px;
-
 }
 .dp{
   height: 40px;
@@ -35,30 +33,25 @@ table{
 }
 td{
     border:1px solid black;
-    /* padding:1%; */
     overflow: hidden;
 }
-
 .btn{
     margin:1%;
 }
 .button1{
     float:right;
 }
-
 .inp{
     width: 80px;
     border: none;
     height: 38px;
 }
-
 .last-btn{
   margin-left: auto;
   margin-right: auto;
   width: 20%;
   margin-left:40%;
 }
-
 .modal-header{
   background-color: #90ee90;
 }
@@ -66,7 +59,6 @@ button{
   background-color: #90ee90;
   border: none;
 }
-
 button:disabled,
 button[disabled]{
   border: none;
@@ -90,7 +82,7 @@ a{
 
 
 
-
+/*using a library*/
 
 .wrapper {
   display: flex;

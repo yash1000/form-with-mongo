@@ -21,37 +21,37 @@ export class ProfileComponent implements OnInit {
   userid: any;
   imageurl: any;
   url: any;
-  constructor(private activeModal: NgbActiveModal,private domSanitizer: DomSanitizer, private fb: FormBuilder,private userservice:UserService) { }
+  constructor(private activeModal: NgbActiveModal,
+    private domSanitizer: DomSanitizer,
+    private fb: FormBuilder,
+    private userservice:UserService) { }
+
   profileForm:FormGroup;
+
   ngOnInit() {
-    var user1=this.userservice.getemployeelist().subscribe((res)=>{
-      console.log(res);
-    }); 
-    var user=JSON.parse(localStorage.getItem("user"));
-    if(localStorage.getItem('user')){
+      var user1=this.userservice.getemployeelist().subscribe((res)=>{}); 
+      var user=JSON.parse(localStorage.getItem("user"));
+      if(localStorage.getItem('user')){
         var user=JSON.parse(localStorage.getItem("user"));
-    console.log(user.firstName);
-    console.log("ppppppppppppppppppppppppp")
-    this.img1="http://localhost:8000/images/"+user.filename;
-    this.firstName=user.firstName;
-    this.lastName=user.lastName;
-    this.email=user.Emailid;
-    this.contact=user.contact;
-    this.gender=user.gender;
+        this.img1="http://localhost:8000/images/"+user.filename;
+        this.firstName=user.firstName;
+        this.lastName=user.lastName;
+        this.email=user.Emailid;
+        this.contact=user.contact;
+        this.gender=user.gender;
+      }
+      this.profileForm = this.fb.group({
+        firstname:[this.firstName],
+        lastname:[this.lastName],
+        email:[ this.email],
+        contact:[this.contact],
+        gender:[this.gender],
+        image:['']
+      });
     }
-    this.profileForm = this.fb.group({
-      firstname:[this.firstName],
-      lastname:[this.lastName],
-      email:[ this.email],
-      contact:[this.contact],
-      gender:[this.gender],
-      image:['']
-    });
-  }
-
-  onSubmit1(event){
+//profile submit
+    onsubmitofprofil(event){
     var user=JSON.parse(localStorage.getItem("user"));
-
     this.contact=this.profileForm.value.contact,
     this.gender=this.profileForm.value.gender,
     Object.assign(user,{"contact":this.contact});
@@ -75,41 +75,28 @@ export class ProfileComponent implements OnInit {
     }
     var image={
       image:this.profileForm.value.image
-    }
-    // this.userservice.postemployee2(this.fd).subscribe((res:any) => {
-    //   console.log("successfulLy updated to database" + this.profileForm.value);
-    //   console.log(res);
-    // });
-    
-    this.userservice.postemployee3(this.fd).subscribe((res:any) => {
+    }    
+    this.userservice.profile(this.fd).subscribe((res:any) => {
   
+// code for image file sent from backend
 //     this.img1=res;
-    
-
 //     let TYPED_ARRAY = new Uint8Array(this.img1);
 //     const STRING_CHAR = String.fromCharCode.apply(null, TYPED_ARRAY);
 //     let base64String = btoa(STRING_CHAR);
-//     console.log("ooooooooooooooooooooooooooooooooooooooooooooppp")
 //     console.log(base64String);
 //     this.img1 = 'data:image/jpg;base64,' + (this.domSanitizer.bypassSecurityTrustResourceUrl(base64String) as any).changingThisBreaksApplicationSecurity;
 //     Object.assign(user,{"img":this.img1});
-  
-//     console.log(user)
-//     console.log("user from loacl storage")
-    
-   
-// console.log("=====================================")
 
-this.img1=res.msg;
-Object.assign(user,{"img":this.img1});
-localStorage.setItem("user",JSON.stringify(user))
-this.closeModal();
+        this.img1=res.msg;
+        Object.assign(user,{"img":this.img1});
+        localStorage.setItem("user",JSON.stringify(user))
+        this.closeModal();
     });
   }
-selectedFile: File = null;
+  selectedFile: File = null;
   fd = new FormData();
   createFormData(event) {
-this.selectedFile = <File>event.target.files[0];
+  this.selectedFile = <File>event.target.files[0];
   }
   closeModal() {
     this.activeModal.close();

@@ -25,6 +25,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ProfileComponent } from './profile/profile.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import { ModalComponent } from './modal/modal.component';
+import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ModalComponent } from './modal/modal.component';
     LoggedinComponent,
     ProfileComponent,
     ForgotPassComponent,
-    ModalComponent
+    ModalComponent,
+    ResetpasswordComponent
   ],
   imports: [
     CarouselModule.forRoot(),

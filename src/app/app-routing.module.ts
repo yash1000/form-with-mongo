@@ -12,12 +12,14 @@ import { SecurePage } from './securepage.service';
 import { ProfileComponent } from './profile/profile.component';
 import { ForgotPassComponent } from './forgot-pass/forgot-pass.component';
 import { ModalComponent } from './modal/modal.component';
+import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 
 
 const routes: Routes = [
   {path:'',redirectTo:'header',pathMatch:'full'},
   // {path:'login',canActivate:[AuthGuard],component:LoginComponent},
   {path:'registration',component:RegistrationComponent},
+  {path:'resetpassword',component:ResetpasswordComponent},
   {path:'header',canActivate:[AuthGuard],component:HeaderComponent},
   {path:'modal',canActivate:[AuthGuard],component:ModalComponent},
   {path:'slider',component:SliderComponent},

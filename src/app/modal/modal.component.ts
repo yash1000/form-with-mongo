@@ -22,8 +22,6 @@ export class ModalComponent implements OnInit {
 
   ngOnInit() {
     this.img1="http://localhost:8000/images/"+this.rows.filename;
-    console.log(this.rows);
-    console.log("this is modal's row")
     this.profileForm = this.fb.group({
       firstname:[this.rows.firstName],
       lastname:[this.rows.lastName],
@@ -39,9 +37,6 @@ export class ModalComponent implements OnInit {
     this.activeModal.close();
   }
   onSubmit1($event){
-    console.log("id of rows in modal")
-    console.log(this.rows._id);
-    console.log(this.profileForm.value)
     this.fd.append('_id',this.rows._id);
     this.fd.append('file', this.selectedFile, this.selectedFile.name);
     this.fd.append('firstName',this.profileForm.value.firstname);
@@ -49,11 +44,10 @@ export class ModalComponent implements OnInit {
     this.fd.append('Emailid',this.profileForm.value.email);
     this.fd.append('contact', this.profileForm.value.contact);
     this.fd.append('gender', this.profileForm.value.gender);
-    this.userservice.postemployee4(this.fd).subscribe((res:any) => {
+    this.userservice.update(this.fd).subscribe((res:any) => {
       if(res){
       this.ngOnInit();}
       else{
-        console.log("oh no")
       }
     })
     this.closeModal();

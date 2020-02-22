@@ -1,4 +1,4 @@
-
+/*custom css*/
 input{
   width:100%;
   border-radius: 5px;
@@ -117,7 +117,7 @@ a{
 
 
 
-/* BASIC */
+/* using libarary css */
 
 html {
   background-color: #90ee90;

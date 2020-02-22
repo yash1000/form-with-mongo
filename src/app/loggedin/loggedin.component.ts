@@ -24,112 +24,82 @@ export class LoggedinComponent implements OnInit {
   mymodel: any;
   img1: any;
   img: { prop: string; }[];
-  constructor( private modalService: NgbModal
-    ,private authsevice:AuthService,private router:Router,private userservice:UserService) { 
-    
+  constructor( private modalService: NgbModal,
+    private authsevice:AuthService,
+    private router:Router,
+    private userservice:UserService) {}
 
-  }
-  value(event){
- 
-    console.log("this is value function")
-    console.log(event.target.value);
-    console.log(this.rows);
+
+  getvaluebeforemodalopen(event){
     for (let i = 0; i < this.rows.length; i++) {
       if(this.rows[i]._id===event.target.value){
-            const element = this.rows[i];
-            console.log("object is:-")
-            
-             this.obj=this.rows[i];
-            console.log(this.obj)}
+            const element = this.rows[i];            
+             this.obj=this.rows[i];}
           }
-        console.log("k")
-  }
-  open2(content) {
-    
-   this.mymodel= this.modalService.open(ModalComponent, {
-     ariaLabelledBy: 'modal-basic-title'});
-     this.mymodel.componentInstance.rows = this.obj;
-    //  .result.then(()=>this.getdata())
-    //  .result.then((result)=>{this.getdata()})
-    console.log("loggedin rows")
-    this.mymodel.result.then((result) => {
-      console.log()
-      if(result){}
-      else{
-      alert('new data updated on result');}
-      this.getdata();
-    },(reason)=>{
-      alert('new data updated on reason');
-      this.getdata();
-    });
-    
-    console.log(this.obj)
-    
-  }
-  closeModal() {
-    this.getdata();
-   } 
-  getDismissReason2(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
-  dtOptions: DataTables.Settings = {};
-  getdata(){
-    console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
-    this.userservice.getemployeelist().subscribe((emp:any)=>{
-      
-      this.rows=[];
-      
-      this.rows=emp;
-      console.log(this.rows);
-      console.log("inget data");
-      this.columns =[];
-      this.columns=[
-        {prop:'firstName'},
-        {prop:'lastName'},
-        {prop:'Emailid'}
-      ];
-    })
-  }
-  ngOnInit() {
-
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 3,
-      
-    };
-    var user=JSON.parse(localStorage.getItem("user"));
-    console.log("inside oninit logged in component");
-    console.log(user.firstName);
-    this.firstName=user.firstName;
-  this.getdata();
-  console.log("ooooooooooooooooooooooooooooooooooooooooooo")
-  console.log(this.getdata())
-  console.log("")
-  }
- 
-  loggedout(){
-    this.router.navigate(['/login']);
-  }
-  refreshemployeelist(){
-    this.userservice.getemployeelist().subscribe((res)=>{
-      this.userservice.employees=res as Employee[];
-    })
-  }
-  ondelete(id:string,profileForm:NgForm){
-    // console.log(this.rows[1]._id);
-    // console.log("in delte rows")
-      if(confirm('are you sure you want to delete this entry')==true){
-        this.userservice.deleteemployerr(id).subscribe((res)=>{
-          console.log('delete successfully');
-          console.log(res)
-          // this.refreshemployeelist();
-        });
+        }
+//open modal for update value        
+      open2(content) {
+      this.mymodel= this.modalService.open(ModalComponent, {
+        ariaLabelledBy: 'modal-basic-title'});
+        this.mymodel.componentInstance.rows = this.obj;
+        this.mymodel.result.then((result) => {
+          alert('new data updated on result');
+          this.getdata();
+        },(reason)=>{
+          alert('new data updated on reason');
+          this.getdata();
+        });    
       }
-    }
+      getDismissReason2(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+          return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+          return 'by clicking on a backdrop';
+        } else {
+          return  `with: ${reason}`;
+        }
+      }
+        //method for colseing modal
+        closeModal() {
+          this.getdata();
+              } 
+        dtOptions: DataTables.Settings = {};
+
+        //getdata function from backend
+        getdata(){
+          this.userservice.getemployeelist().subscribe((emp:any)=>{
+            this.rows=[];
+            this.rows=emp;
+            this.columns =[];
+            this.columns=[
+              {prop:'firstName'},
+              {prop:'lastName'},
+              {prop:'Emailid'}
+            ];
+          })
+        }
+        ngOnInit() {
+
+          this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 3,
+          };
+            var user=JSON.parse(localStorage.getItem("user"));
+            this.firstName=user.firstName;
+            this.getdata();}
+      
+        loggedout(){
+          this.router.navigate(['/login']);
+        }
+        refreshemployeelist(){
+          this.userservice.getemployeelist().subscribe((res)=>{
+            this.userservice.employees=res as Employee[];
+          })
+        }
+        ondelete(id:string,profileForm:NgForm){
+            if(confirm('are you sure you want to delete this entry')==true){
+              this.userservice.deleteemployerr(id).subscribe((res)=>{
+              });
+            }
+          }
 }

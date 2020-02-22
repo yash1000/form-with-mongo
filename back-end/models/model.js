@@ -7,15 +7,8 @@ var Employee = mongoose.model('Employee',{
     password:{type:String},
     contact: {type: String},
     gender: {type: String},
-    // imageURL: {type:String},
-    // fieldname:{type:String},
-    // originalname:{type:String},
-    // encoding:{type:String},
-    // mimetype:{type:String},
-    // destination:{type:String},
+    token:{type:String},
     filename:{type:String},
-    // path:{type:String},
-    // size:{type:Number}  
 })
 
 module.exports = {Employee};
