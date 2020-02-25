@@ -1,0 +1,20 @@
+.modal-header{
+    background-color: #800000;
+    color: white;
+  }
+  button{
+    background-color: #800000;
+    border: none;
+    color: white;
+  }
+  button:disabled,
+  button[disabled]{
+    border: none;
+    background-color: #800000;
+    color: #666666;
+    opacity: 0.5;
+  }
+  td{
+      padding:0px !important;
+      margin: 0px !important;
+  }

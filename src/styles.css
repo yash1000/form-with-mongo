@@ -1,29 +1,145 @@
 /* You can add global styles to this file, and also import other style files */
 .slick-prev:before, .slick-next:before{
     color:black !important
+    
 }
 .sorting{
-    background-color:#90ee90;
+    /* background-color:#800000; */
+    color: #800000 !important;
+    border: none !important;
 }
 .sorting_asc{
-    background-color: #90ee90;
+    /* background-color: #800000; */
+    color: #800000 !important;
+    border: none !important;
 }
 #DataTables_Table_0_last{
-    background-color: #90ee90;
+    background-color: white;
+    color: #800000 !important;
+    border-radius: 100%;
 }
 #DataTables_Table_0_next{
-    background-color: #90ee90;
+    background-color: white;
+    color: #800000 !important;
+    border-radius: 100%;
 }
 #DataTables_Table_0_previous{
-    background-color: #90ee90;
+    background-color: white;
+    color: #800000 !important;
+    border-radius: 100%;
 }
 #DataTables_Table_0_first{
-    background-color: #90ee90;
+    background-color: white;
+    color: #800000 !important;
+    border-radius: 100%;
 }
 .paginate_button {
-    background-color: #90ee90;
-}
-.paginate_button.current{
-    background: #90ee90 !important;
+    
+    color: #800000 !important ;
+    background-color: white !important;
+    border-radius: 100% !important;
+    margin: 10px !important;
     border: none !important;
+    color: white !important;
+
+    /* height:40px !important;
+    width:40px !important; */
+}
+.paginate_button:hover{
+    color: white !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current{
+    background: #800000 !important;
+    border: none !important;
+    color: white !important;
+    border-radius: 100% !important;
+}
+tr{
+    border: none !important;
+    height: 50px !important;
+}
+.startr{
+    border-radius: 10px !important;
+    /* background-color: white !important; */
+}
+.startr:hover {
+    background-color:rgba(128, 0, 0,0.1) !important;
+    border:10px solid black !important
+    /* border:10px solid rgba(128, 0, 0,0.5) !important ; */
+}
+
+th{
+    border:none !important; 
+}
+table.dataTable.row-border tbody td{
+    border :none !important
+}
+
+td{
+    padding:0px !important;
+}
+table.dataTable.no-footer {
+    border:none !important
+}
+
+
+
+
+table.dataTable{
+    border-spacing: 0px 6px !important;
+    /* border-radius: 10% !important; */
+    height: 100px !important;
+}
+
+
+
+
+.sorting :hover{
+
+    color: #800000 !important;
+    border: none !important;
+}
+.sorting_asc:hover{
+    
+    color: #800000 !important;
+    border: none !important;
+}
+#DataTables_Table_0_last:hover{
+    background-color: #800000;
+    color: white !important;
+    
+}
+#DataTables_Table_0_next:hover{
+    background-color: #800000;
+    color: white !important;
+    
+}
+#DataTables_Table_0_previous:hover{
+    background-color: #800000;
+    color: white !important;
+    
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+    background: none !important;
+    background-color: #800000 !important;
+    border:none !important
+}
+#DataTables_Table_0_first:hover{
+    background-color: #800000;
+    color: white !important;
+
+}
+.paginate_button:hover {
+    
+    color: white !important ;
+    
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+    background: #800000 !important;
+    border: none !important;
+    color: white !important;
+    
+}
+body {
+    background-color: #D3D3D3;
 }

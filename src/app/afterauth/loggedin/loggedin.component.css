@@ -1,0 +1,39 @@
+.firstname{
+    float: right;
+}
+a{
+    cursor: pointer;
+}
+i{
+    background-color: white !important;
+    color: #800000;
+    font-size: 15px !important;
+    /* padding :1%; */
+    margin-top: 30% !important;
+    /* padding-bottom: 0% !important; */
+    border: none !important
+}
+.button1{
+    border:none;
+    background: #800000 !important;
+    margin-left: 30%;
+    color: white !important;
+}
+.img{
+    border-radius: 100% !important;
+    margin-left: 10% !important;
+}
+.container1{
+    /* background-color: #D3D3D3; */
+    padding-left: 1.5% !important;
+    padding-right: 1.5% !important;
+}
+#example1{
+    height: 80vh;
+    padding-top: 0% !important;
+    /* width: 100vw; */
+}
+
+tr{
+    padding:100px !important
+}

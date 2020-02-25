@@ -1,0 +1,29 @@
+.modal-header {
+    background-color: #800000;
+    color: white !important;
+    }
+    .modal-title{
+        color:white !important;
+    }
+    button{
+    background-color: #800000;
+    border: none;
+    color: white !important;
+    }
+    button:hover{
+        background-color: #800000 !important;
+        color: white !important;
+    }
+    button:disabled,
+    button[disabled]{
+    border: none;
+    background-color: #800000;
+    color: white !important;
+    opacity: 0.5;
+    }
+    a{
+    color:#800000
+    }
+    *{
+        color: black !important;
+    }

@@ -1,0 +1,454 @@
+/*custom css*/
+input{
+  width:100%;
+  border-radius: 5px;
+  border:1px solid black;
+  padding:5px;
+  margin-left: auto;
+  margin-right: auto;
+  /* margin:2%; */
+}
+#modal-basic-title{
+  color:white !important
+}
+input.ng-invalid.ng-touched{
+  border:1px solid red;
+}
+span{
+  color:red;
+  margin-left: 3%;
+}
+.btn1{
+  margin-left: 38.5% !important;
+  color: white !important;
+}
+.btn-block{
+  display: inline !important;
+}
+.btn2{
+  margin-left: 39% !important;
+  margin-top: 5%;
+  margin-bottom: 2%;
+  color: blue !important;
+  cursor: pointer;
+  /* color: white !important; */
+}
+.img1{
+  margin-left: 18%;
+}
+.top{
+  margin-right: auto;
+  margin-left: 6%;
+  width: 100%;
+}
+img{
+  margin-left: auto;
+  margin-right: auto;
+}
+.color1{
+  background-color:  #800000 ;
+}input{
+  width:100%;
+  border-radius: 5px;
+  border:1px solid black;
+  padding:5px;
+  /* margin:2%; */
+}
+input.ng-invalid.ng-touched{
+  border:1px solid red;
+}
+span{
+  color:red
+}
+
+
+table{
+  border:1px solid black;
+  width: -100px;
+  height: 100px;
+
+}
+
+td{
+  border:1px solid black;
+  /* padding:1%; */
+  overflow: hidden;
+}
+
+.btn{
+  margin:1%;
+}
+.button1{
+  float:right;
+}
+
+.inp{
+  width: 80px;
+  border: none;
+  height: 38px;
+}
+
+.last-btn{
+margin-left: auto;
+margin-right: auto;
+width: 20%;
+margin-left:40%;
+}
+
+.modal-header{
+background-color: #800000;
+}
+button{
+background-color: #800000;
+border: none;
+}
+button:disabled,
+button[disabled]{
+border: none;
+background-color: #800000;
+color: rgba(15, 2, 2,0.2) !important;
+opacity: 0.5;
+}
+a{
+color:#800000
+}
+
+button{
+  background-color: #800000 !important;
+  opacity: 1 !important;
+  border: none !important;
+  color: #0d0d0d !important;
+}
+button:disabled,
+button[disabled]{
+  border: none !important;
+  background-color: maroon !important;
+  /* opacity: 0.2 !important; */
+  color: white;
+}
+a{
+  color:#800000 !important
+}
+.colr{
+  color:#dd4b39 !important;
+  margin-left: 4% !important;
+}
+.colrr{
+  color:#3b5998 !important
+}
+.fa{
+  color:#dd4b39 !important
+}
+.fa-facebook{
+  color: #3b5998 !important;
+}
+/* using libarary css */
+
+html {
+  background-color: #800000;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  height: 100vh;
+}
+
+a {
+  color: #92badd;
+  display:inline-block;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+h2 {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  display:inline-block;
+  margin: 40px 8px 10px 8px; 
+  color: #cccccc;
+}
+
+
+
+/* STRUCTURE */
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column; 
+  justify-content: center;
+  width: 100%;
+  min-height: 100%;
+  padding: 20px;
+}
+
+#formContent {
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  padding: 0px;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+#formFooter {
+  background-color: #f6f6f6;
+  border-top: 1px solid #dce8f1;
+  padding: 25px;
+  text-align: center;
+  -webkit-border-radius: 0 0 10px 10px;
+  border-radius: 0 0 10px 10px;
+}
+
+
+
+/* TABS */
+
+h2.inactive {
+  color: #cccccc;
+}
+
+h2.active {
+  color: #0d0d0d;
+  border-bottom: 2px solid #800000;
+}
+
+
+
+input[type=text] {
+  background-color: #f6f6f6;
+  border: none;
+  color: #0d0d0d;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  width: 85%;
+  border: 2px solid #f6f6f6;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+}
+
+input[type=text]:focus {
+  background-color: #fff;
+  border-bottom: 2px solid #800000;
+}
+
+input[type=text]:placeholder {
+  color: #cccccc;
+}
+input[type=password] {
+  background-color: #f6f6f6;
+  border: none;
+  color: #0d0d0d;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  width: 85%;
+  border: 2px solid #f6f6f6;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+}
+
+input[type=password]:focus {
+  background-color: #fff;
+  border-bottom: 2px solid #800000;
+}
+
+input[type=password]:placeholder {
+  color: #cccccc;
+}
+
+
+
+/* ANIMATIONS */
+
+/* Simple CSS3 Fade-in-down Animation */
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+
+/* Simple CSS3 Fade-in Animation */
+@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+.fadeIn {
+  opacity:0;
+  -webkit-animation:fadeIn ease-in 1;
+  -moz-animation:fadeIn ease-in 1;
+  animation:fadeIn ease-in 1;
+
+  -webkit-animation-fill-mode:forwards;
+  -moz-animation-fill-mode:forwards;
+  animation-fill-mode:forwards;
+
+  -webkit-animation-duration:1s;
+  -moz-animation-duration:1s;
+  animation-duration:1s;
+}
+
+.fadeIn.first {
+  -webkit-animation-delay: 0.4s;
+  -moz-animation-delay: 0.4s;
+  animation-delay: 0.4s;
+}
+
+.fadeIn.second {
+  -webkit-animation-delay: 0.6s;
+  -moz-animation-delay: 0.6s;
+  animation-delay: 0.6s;
+}
+
+.fadeIn.third {
+  -webkit-animation-delay: 0.8s;
+  -moz-animation-delay: 0.8s;
+  animation-delay: 0.8s;
+}
+
+.fadeIn.fourth {
+  -webkit-animation-delay: 1s;
+  -moz-animation-delay: 1s;
+  animation-delay: 1s;
+  width: 50% !important;
+}
+
+/* Simple CSS3 Fade-in Animation */
+.underlineHover:after {
+  display: block;
+  left: 0;
+  bottom: -10px;
+  width: 0;
+  height: 2px;
+  background-color: #800000;
+  content: "";
+  transition: width 0.2s;
+}
+
+.underlineHover:hover {
+  color: #0d0d0d;
+}
+
+.underlineHover:hover:after{
+  width: 100%;
+}
+
+
+
+/* OTHERS */
+
+*:focus {
+    outline: none;
+} 
+
+#icon {
+  width:60%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

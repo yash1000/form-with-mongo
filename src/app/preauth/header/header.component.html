@@ -1,0 +1,128 @@
+<!--Navbar started-->
+<nav class="navbar navbar-expand-lg navbar-light color1">
+
+   <img src="../../assets/images/22.jpg" height="42" width="42" style="border-radius: 100%;">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item " >
+          <a class="nav-link white" *ngIf="!isloggedin"  data-toggle="modal" (click)="open1(content)">
+           Registration
+         </a>
+        </li>
+        <li class="nav-item " >
+          <a class="nav-link white" *ngIf="!isloggedin"  data-toggle="exampleModal11"(click)="open()">
+            login
+         </a>
+        </li>   
+        <li class="nav-item " *ngIf="isloggedin">
+          <img src="{{img1}}"class="dp">
+        </li>
+        <li class="nav-item " *ngIf="isloggedin">
+          <a class=" nav-link white" (click)="open2()"> Hello, {{firstName}}</a>
+        </li>
+        <li class="nav-item" *ngIf="isloggedin">
+          <a class="nav-link white" (click)="loggedout()">
+            Logout
+         </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+<!--Navbar finish-->
+<!--form modal started-->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="img1">
+      <img src="../../assets/images/3.png" id="icon" alt="User Icon" height="200" width="200"/>
+     </div>
+
+  <div class="container">
+    <form (keydown.space)="$event.preventDefault()" [formGroup]="profileForm"  (ngSubmit)="onSubmit($event)">
+
+      <input type="text" placeholder="First name"formControlName="firstName"><br>
+        <span *ngIf="!profileForm.get('firstName').valid && profileForm.get('firstName').touched" class="help-block">please Enter a valid Firstname with atleast 3 charecter!</span><br>
+
+      <input type="text" placeholder="Last Name" formControlName="lastName"><br>
+        <span *ngIf="!profileForm.get('lastName').valid && profileForm.get('lastName').touched" class="help-block">please Enter a valid Lastname with atleast 3 charecter!</span><br>
+
+
+      <input type="text" placeholder="Email" formControlName="Emailid"><br>
+        <span *ngIf="!profileForm.get('Emailid').valid && profileForm.get('Emailid').touched" class="help-block">please Enter a valid Email-Id with . and @ </span><br>
+
+      <input type="text" placeholder="Password" formControlName="password" type="password"><br>
+        <span *ngIf="profileForm.controls['password'].hasError('hasNumber') && profileForm.get('password').touched; then notShow11; else notShow"></span>
+            
+<!--Conditions for password validations-->
+
+            <ng-template #notShow11>
+            <span> Must have at least 1 number!</span>
+            </ng-template>
+
+
+
+            <ng-template  #notShow>
+            <span *ngIf="profileForm.controls['password'].hasError('hasCapitalCase') && profileForm.get('password').touched else notShow1" class="text-danger">
+            Must have at least 1 Capital Case!
+            </span>
+            </ng-template>
+
+
+            <ng-template #notShow1>
+            <span *ngIf="profileForm.controls['password'].hasError('haslengthCase') && profileForm.get('password').touched else notShow12">
+            Must have length 1 special charecter!
+            </span>
+            </ng-template>
+
+
+            <ng-template #notShow12>
+            <span *ngIf="profileForm.get('password').errors?.minlength  && profileForm.get('password').touched else notShow13">
+            Please enter minimum 8 charecter
+            </span>
+            </ng-template>
+
+            <ng-template #notShow13>
+            <span *ngIf="profileForm.get('password').errors?.required  && profileForm.get('password').touched">
+            Please enter the password!
+            </span>
+            </ng-template>
+            <br>
+
+        <button type="submit" class="btn last-btn" [disabled]=!profileForm.valid>Submit</button>
+      </form>
+  </div>
+</div>
+</ng-template>
+<!--Navbar finished-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

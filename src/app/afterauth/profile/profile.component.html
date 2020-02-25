@@ -1,0 +1,84 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Edit profile</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div>
+    <form  [formGroup]="profileForm" method="POST"  (ngSubmit)="onsubmitofprofil($event)" enctype="multipart/form-data"><br>
+    <table>
+      <tr>
+        <td>
+          Firstname:-
+        </td>
+        <td>
+          <input type="text" id="firstName"formControlName="firstname" placeholder="First name" value="{{firstName}}"><br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Lastname:-
+        </td>
+        <td>
+          <input type="text" id="lastName"formControlName="lastname" placeholder="Last Name" value="{{lastName}}"><br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Email:-
+        </td>
+        <td>
+          <input type="text" id="email"formControlName="email" placeholder="Email" value="{{email}}" ><br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Contect:-
+        </td>
+        <td>
+          <input type="text" id="contect"formControlName="contact" placeholder="contact number" value="{{contact}}"><br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Gender:-
+        </td>
+        <td>
+          Male<input type="radio" name="gender" value="male"formControlName="gender" checked><br>
+          Female<input type="radio" name="gender"formControlName="gender" value="female">  <br>
+           Other<input type="radio" name="gender" formControlName="gender"value="other"><br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="myfile">Select a file:</label>
+        </td>
+        <td>
+          <input type="file" formControlName="image"  (change)="createFormData($event)" id="myfile" name="myfile"><br><br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button type="submit" class="btn btn-primary btn1" value="Log In" [disabled]=!profileForm.valid>Update</button><br>
+        </td>
+      </tr>
+    
+    </table>
+     </form>
+    </div>
+    
+
+
+</div>
+
+    <img src="{{img1}}">
+
+
+
+
+
+
+
+
+
