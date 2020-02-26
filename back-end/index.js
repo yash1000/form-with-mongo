@@ -64,7 +64,7 @@ if(mimetype && extname){
 }
 
 //delete api
-app.post('/delete',(req,res)=>{
+app.post('/delete',verifyToken,(req,res)=>{
     res.send(req.body)
     Employee.findOneAndDelete({_id:req.body.id},(err,docs)=>{
     if(docs){
@@ -78,413 +78,230 @@ app.post('/delete',(req,res)=>{
 
 
 //upload image in multur api
-app.post('/upload',(req,res,next)=>{
-    var emp =new Employee({
-        fieldname:req.body.fieldname,
-        originalname:req.body.originalname,
-        encoding:req.body.encoding,
-        mimetype:req.body.mimetype,
-        destination:req.body.destination,
-        filename:req.body.filename,
-        path:req.body.path,
-        size:req.body.size  
+app.post('/upload', verifyToken, (req, res, next) => {
+  var emp = new Employee({
+    fieldname: req.body.fieldname,
+    originalname: req.body.originalname,
+    encoding: req.body.encoding,
+    mimetype: req.body.mimetype,
+    destination: req.body.destination,
+    filename: req.body.filename,
+    path: req.body.path,
+    size: req.body.size
+  });
+  upload(req, res, (err) => {
+    var emp = new Employee({
+      _id: req.body._id,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      Emailid: req.body.Emailid,
+      contact: req.body.contact,
+      gender: req.body.gender,
+      filename: req.file.filename,
     });
-    upload(req,res,(err) =>{
-           var emp =new Employee({
-               _id:req.body._id,
-               firstName:req.body.firstName,
-               lastName:req.body.lastName,
-               Emailid:req.body.Emailid,
-               contact:req.body.contact,
-               gender:req.body.gender,
-            filename:req.file.filename,
+    Employee.findOneAndUpdate({
+      _id: req.body._id
+    }, {
+      $set: emp
+    }, {
+      new: true,
+      upsert: false
+    }, (err, docs) => {
+      if (err) {
+        res.send({
+          msg: err
         });
-        Employee.findOneAndUpdate({_id:req.body._id},{$set:emp},{new:true,upsert: false },(err,docs)=>{
-            if(err){
-                res.send({
-                    msg:err
-                });
-            }
-            else{
-            if(req.file==undefined){
-                res.send({
-                    msg:"error :no file selected"
-                });
-            }else{
-       //file send code
-// console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
-//        console.log(emp)
-//        console.log(emp._id)
-//        console.log("docs from response")
-//            console.log(docs)
-//     var v=`./public/upload/${docs.filename}`
-//     var f=
-//         res.sendfile(v);
+      } else {
+        if (req.file == undefined) {
+          res.send({
+            msg: "error :no file selected"
+          });
+        } else {
+          //file send code
+          // console.log("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+          //        console.log(emp)
+          //        console.log(emp._id)
+          //        console.log("docs from response")
+          //            console.log(docs)
+          //     var v=`./public/upload/${docs.filename}`
+          //     var f=
+          //         res.sendfile(v);
 
-                var imageurl="http://localhost:8000/images/"+(docs.filename);
+          var imageurl = "http://localhost:8000/images/" + (docs.filename);
 
-                res.send({
-                    msg:imageurl
-                })
-              }
-            }
-         })
+          res.send({
+            msg: imageurl
+          })
+        }
+      }
     })
+  })
 })
 
 //login api
-app.post('/checkuser',(req,res)=>{
-    var email = req.body.Emailid1;
-    var pass = req.body.password1;
-    var user = { name: email,pass1:pass}
-    Employee.findOne({Emailid:email},(err,docs)=>{
-        if(docs){
-            if(docs.password == pass){
-                // jwt.sign(user,'secretkey',(err,token)=>{
-                res.send({
-                    status:1,
-                    message: docs,
-                    // token:token
-                }) 
-            // })
-            }else{
-                res.send({
-                    status:2,
-                    message: "Credentials Invalid"
-                })
-            }
-            
-        }else{
-            res.send({
-                status: 0,
-                message: 'not found'
-            })
-        }
-    })
-    })
+app.post('/checkuser', (req, res) => {
+  var email = req.body.Emailid1;
+  var pass = req.body.password1;
+  var user = {
+    name: email,
+    pass1: pass
+  }
+  Employee.findOne({
+    Emailid: email
+  }, (err, docs) => {
+    if (docs) {
+      if (docs.password == pass) {
+        jwt.sign(user, 'secretkey', (err, token) => {
+          res.send({
+            status: 1,
+            message: docs,
+            token: token
+          })
+        })
+      } else {
+        res.send({
+          status: 2,
+          message: "Credentials Invalid"
+        })
+      }
+
+    } else {
+      res.send({
+        status: 0,
+        message: 'not found'
+      })
+    }
+  })
+})
 
 //update employees api
-    app.post('/updateinlist',(req,res)=>{
-        upload(req,res,(err) =>{
-            var emp =new Employee({
-                _id:req.body._id,
-                firstName:req.body.firstName,
-                lastName:req.body.lastName,
-                Emailid:req.body.Emailid,
-                contact:req.body.contact,
-                gender:req.body.gender,
-             filename:req.file.filename,
-         });
-         Employee.findOneAndUpdate({_id:req.body._id},{$set:emp},{new:true,upsert: false },(err,docs)=>{
-            if(err){
-                res.send({
-                    msg:"sorry"
-                })
-            }
-            else{
-                res.send({
-                    msg:"success"
-                })
-            }
-            
-         })
-            if(err){
-                console.log("err")
-                console.log(err)
-            }
-            else{
-            }
+app.post('/updateinlist', verifyToken, (req, res) => {
+  upload(req, res, (err) => {
+    var emp = new Employee({
+      _id: req.body._id,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      Emailid: req.body.Emailid,
+      contact: req.body.contact,
+      gender: req.body.gender,
+      filename: req.file.filename,
+    });
+    Employee.findOneAndUpdate({
+      _id: req.body._id
+    }, {
+      $set: emp
+    }, {
+      new: true,
+      upsert: false
+    }, (err, docs) => {
+      if (err) {
+        res.send({
+          msg: "sorry"
         })
+      } else {
+        res.send({
+          msg: "success"
+        })
+      }
+
     })
-
-    //reset passeord api
-    app.post('/reset',(req,res)=>{
-        Employee.findOne({token:req.body.token},(err,docs)=>{
-            if(docs){
-                console.log(docs)
-                console.log("find")
-            }else{
-                console.log(err)
-                console.log("did not find")
-            }
-                })})
-               app.post('/email',(req,res)=>{
-        
-               console.log(req.body)
-               const encryptedString = cryptr.encrypt(req.body);
-            //    console.log(docs.Emailid)
-               console.log(encryptedString);
-               var emp ={
-               token:encryptedString
-            }
-               Employee.findOneAndUpdate({Emailid:req.body.Emailid1},{$set:emp},{new:true},(err,docs)=>{
-                   if(docs){
-                       console.log(docs)              
-                       var transporter = nodemailer.createTransport({
-                        service: 'gmail',
-                        auth: {
-                            host: 'smtp.gmail.com',
-                    port: 465,
-                    secure: true,
-                          user: 'noreply13644@gmail.com',
-                          pass: 'yash@1000'
-                        }
-                      });
-                      
-                    
-                      var mailOptions = {
-                        from: 'noreply13644@gmail.com',
-                        to: docs.Emailid,
-                        subject: 'Successfully registered',
-                        html: `<a href="http://localhost:4200/resetpassword?token=${encryptedString}">http://localhost:4200/resetpassword?token=${encryptedString}</a>`,
-                      };
-                    transporter.sendMail(mailOptions, function(error, info){
-                        if (error) {
-                            console.log("err is")
-                          console.log(error);
-                        } else {
-                          console.log('Email sent: ' + info.response);
-                        }
-                      });
-                   }
-                   else{
-                       console.log(err)
-                       console.log("did not find")
-                       console.log("inside find")
-                   }
-               })
-            });
+    if (err) {
+      console.log("err")
+      console.log(err)
+    } else {}
+  })
+})
 
 
+function verifyToken(req, res, next) {
+  console.log("header")
+  console.log()
+  const bearerHeader = req.headers['authorization'];
+  console.log(bearerHeader)
+
+  if (typeof bearerHeader !== 'undefined') {
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    jwt.verify(bearerToken, 'secretkey', (err, authData) => {
+
+      var user = authData.name;
+      Employee.findOne({
+        Emailid: user
+      }, (err, docs) => {
+        if (err) {
+          res.sendStatus(403);
+        } else {
+          console.log(docs);
+          console.log("in verifyfunction");
+          next();
+        }
+      })
+    })
+  }
+}
+
+//reset passeord api
+app.post('/reset', (req, res) => {
+  Employee.findOne({
+    token: req.body.token
+  }, (err, docs) => {
+    if (docs) {
+      console.log(docs)
+      console.log("find")
+    } else {
+      console.log(err)
+      console.log("did not find")
+    }
+  })
+})
+app.post('/email', (req, res) => {
+
+  console.log(req.body)
+  const encryptedString = cryptr.encrypt(req.body);
+  console.log(encryptedString);
+  var emp = {
+    token: encryptedString
+  }
+  Employee.findOneAndUpdate({
+    Emailid: req.body.Emailid1
+  }, {
+    $set: emp
+  }, {
+    new: true
+  }, (err, docs) => {
+    if (docs) {
+      console.log(docs)
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          host: 'smtp.gmail.com',
+          port: 465,
+          secure: true,
+          user: 'noreply13644@gmail.com',
+          pass: 'yash@1000'
+        }
+      });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    // app.use(multer.array());
-
-//     app.post('/editprofile',(req,res)=>{
-    
-// console.log("edit profile")
-      
-// console.log(req.body);
-
-//     upload(req,res,(err) =>{
-//         var emp =new Employee({
-//          fieldname:req.file.fieldname,
-//          originalname:req.file.originalname,
-//          encoding:req.file.encoding,
-//          mimetype:req.file.mimetype,
-//          destination:req.file.destination,
-//          filename:req.file.filename,
-//          path:req.file.path,
-//          size:req.file.size  
-//      });})
-//      console.log("sddddddddd")
-//         Employee.findOneAndUpdate({_id:req.body._id},{$set:req.body},{new:true,upsert: true },(err,docs)=>{
-//             console.log(req.body);  
-//             console.log("----------------"+req.body._id)
-//             console.log("****************************")
-//                     // Employee.findOne({Emailid:empupdate.Emailid})
-//                     console.log(docs)
-//                     if(docs){
-//                         // docs=req.body;
-//                             res.send({
-//                                 status:1,
-//                                 message: docs
-//                                 // token:token
-//                             }) 
-//                     }else{
-//                         res.send({
-//                             status: 0,
-//                             message: 'not found',
-//                             message1:err
-//                         })
-//                     }
-            
-            
-//                 })
-//                 });
-
-// const mongouri = 'mongodb://localhost:27017/formdb';
-// // const conn = mongoose.createConnection(mongouri);
-// let gfs;
-// Employee.once('open',()=>{
-//   gfs = Grid(conn.db, mongoose.mongo);
-// gfs.collection('uploads');
-  
-// })
-// const storage = new gridfsstorage({
-//     url:'mongodb://localhost:27017/formdb',
-//     file: (req,res)=>{
-//         return new Promise((resolve,reject)=>{
-//             crypto.randomBytes(16,(err,buf)=>{
-//                 if(err){
-//                     return reject(err);
-//                 }
-//                 const filename =buf.toString('hex')+path.extname(file.orginalname);
-//                 const fileinfo={
-//                     filename:filename,
-//                     bucketname:'uploads'
-//                 };
-//                 resolve(fileinfo);
-//             })
-//         })
-//     }
-// })
-// const upload=multer({ storage });
-
-
-// app.post('/upload',upload.single('myfile'),(req,res)=>{
-//     console.log(req.file)
-// res.json({file:req.file});
-// })
-
-// cloudinary.config({
-//     cloud_name: process.env.CLOUD_NAME,
-//     api_key: process.env.API_KEY,
-//     api_secret: process.env.API_SECRET
-//     });
-//     const storage = cloudinaryStorage({
-//     cloudinary: cloudinary,
-//     folder: "demo",
-//     allowedFormats: ["jpg", "png"],
-//     transformation: [{ width: 500, height: 500, crop: "limit" }]
-//     });
-    // const parser = multer({ storage: storage });
-
-
-
-/**
- * user with token
- */
-// app.get('/username',varifyToken,function(req,res,next){
-// return res.status(200).json(decodedtoken.name)
-// })
-// var decodedtoken='';
-// function varifyToken(req,res,next){
-// let token = req.query.token;
-// console.log(token);
-
-// jwt.verify(token,'secretkey',function(err,tokendata){
-// if(err){
-//     return res.status(400).json({message:"unouthorized"})
-// }
-// if(tokendata){
-//     decodedtoken=tokendata;
-//     next();
-// }
-// })
-// }
-
-    // app.post('/spp/post',verifyToken,(req,res)=>{
-    //     res.json({
-    //         message:"post created"
-    //     })
-    //     jwt.verify(req.token,'secretkey',(err,authdata)=>{
-    //         if(err){
-    //             res.sendStatus(403);
-    //         }
-    //         else{
-    //             res.json({
-    //                 message:"welcome",
-    //                 authdata
-    //             })
-    //         }
-    //     });
-      
-    // })
-
-
-    // app.post('/userdetail',verifyToken,(req,res)=>{
-    //     res.json({
-    //         message:"welcome"
-    //     })
-    // })
-
-// function verifyToken(req,res,next){
-//     const brh=req.headers['authorization'];
-//     if(typeof brh !== 'undefined'){
-//         const brr=brh.split(' ');
-//         const bry=brr[1];
-//         req.token=bry;
-//         next();
-//     }
-//     else{
-//         res.sendStatus(403);
-//     }
-// }
-
-
-// app.post('/api/images', parser.single("image"), (req, res) => {
-//   console.log(req.file) // to see what is returned to you
-//   const image = {};
-//   image.url = req.file.url;
-//   image.id = req.file.public_id;
-//   Image.create(image) // save image information in database
-//     .then(newImage => res.json(newImage))
-//     .catch(err => console.log(err));
-// });
-
-    // var empupdate ={
-    
-    //     firstName:req.body.firstname,
-    //     lastName:req.body.lastname,
-    //     Emailid:req.body.email,
-    //     contact:req.body.contact,
-    //     gender:req.body.gender
-    // }    
-    
-    // Employee.updateOne(
-    //     {_id:req.body._id},
-    //     {$set:req.body},
-    // {upsert: false }, (err, res) => {
-    //        console.log(res+"response");
-    //        console.log(res)
-    //        console.log(err)+"error";
-    //     }
-    // )
-
-
-    // Employee.update(
-    //     {contact:req.body.contact},
-    //     {gender:req.body.gender})
-        // console.log(Employee.body);
-        // console.log("oooooooooooooooooooooooooooooooooooooooooooooooo")
-       
+      var mailOptions = {
+        from: 'noreply13644@gmail.com',
+        to: docs.Emailid,
+        subject: 'Successfully registered',
+        html: `<a href="http://localhost:4200/resetpassword?token=${encryptedString}">http://localhost:4200/resetpassword?token=${encryptedString}</a>`,
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log("err is")
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+    } else {
+      console.log(err)
+      console.log("did not find")
+      console.log("inside find")
+    }
+  })
+});
 app.use('/employee',employeecontroller)

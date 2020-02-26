@@ -8,16 +8,36 @@ var nodemailer = require('nodemailer');
 
 //router set
 router.get('/',(req,res)=>{
+    // jwt.verify(req.token,'secretkey',(err,authData)=>{
     Employee.find((err,docs)=>
     {
         if(!err){
-            res.send(docs);
+            res.send(docs); 
         }
         else{
             console.log('error in employee retrevation'+JSON.stringify(err,undefine,2));
         }
     });
+// });
 });
+// function verifyToken(req,res,next){
+    
+//     console.log("header")
+//     const bearerHeader=req.headers['authorization'];
+//     console.log(bearerHeader)
+//     if(typeof bearerHeader !== 'undefined'){
+//     const bearer = bearerHeader.split(' ');
+//     const bearerToken = bearer[1];
+//     if(req.token = bearerToken){
+//     next();}
+//     else{
+//         console.log("no match")
+//         res.sendStatus(403);
+//     }
+//     }else{
+//         res.sendStatus(403);
+//     }
+//     }
 
 //registration api
 router.post('/',(req,res)=>{

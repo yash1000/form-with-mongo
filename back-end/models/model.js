@@ -7,7 +7,6 @@ var Employee = mongoose.model('Employee',{
     password:{type:String},
     contact: {type: String},
     gender: {type: String},
-    token:{type:String},
     filename:{type:String},
 })
 

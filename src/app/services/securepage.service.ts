@@ -13,8 +13,6 @@ export class SecurePage implements CanActivate{
     canActivate(next :ActivatedRouteSnapshot,
         state:RouterStateSnapshot):
         Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree{
-            console.log("+++++++++++++++++++++INSIDE Secure")
-            console.log(localStorage.getItem('user'))
             if(localStorage.getItem('user')){
                 return true;
             }

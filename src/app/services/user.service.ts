@@ -4,12 +4,23 @@ import { Employee } from "../module/employeemodel.module";
 import { Employee1 } from "../module/edit.module";
 import { userInfo } from "os";
 import { appinfo } from "../../environments/environment";
+import { isNullOrUndefined } from 'util';
 @Injectable()
 export class UserService {
+  token:any;
+  
+  
   selectedemployee: Employee;
   employees: Employee[];
   readonly baseurl = "http://localhost:8000/";
-  constructor(private https: HttpClient) {}
+  constructor(private https: HttpClient) {
+   let user=JSON.parse(localStorage.getItem("user"));
+   if(!isNullOrUndefined(user)){
+     this.token=user.token;
+} else{
+   }
+    // this.token= JSON.parse(localStorage.getItem("user"));
+  }
   // @param emp will send all form values as object
   registration(emp: Employee) {
     return this.https.post(this.baseurl + "employee", emp);
@@ -23,7 +34,11 @@ export class UserService {
     return this.https.post(this.baseurl + appinfo.info.reset, emp, {});
   }
   profile(image: any) {
-    return this.https.post(this.baseurl + appinfo.info.upload, image, {});
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + `${this.token}`
+      })};
+    return this.https.post(this.baseurl + appinfo.info.upload, image,httpOptions);
   }
 
   //  @param emp1 will send login form values as object
@@ -31,8 +46,13 @@ export class UserService {
   login(emp1: Employee1) {
     return this.https.post(this.baseurl + appinfo.info.checkuser, emp1);
   }
+  
   update(emp1: any) {
-    return this.https.post(this.baseurl + appinfo.info.updateinlist, emp1);
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + `${this.token}`
+      })};
+    return this.https.post(this.baseurl + appinfo.info.updateinlist, emp1,httpOptions);
   }
 
   // get users from database
@@ -44,19 +64,10 @@ export class UserService {
   // @param id wise delete in database
 
   deleteemployerr(id: any) {
-    console.log(id);
-    console.log("id");
-    return this.https.post(this.baseurl + appinfo.info.delete, { id });
+    var httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + `${this.token}`
+      })};
+    return this.https.post(this.baseurl + appinfo.info.delete, { id },httpOptions);
   }
-
-  /**
-   * with token
-   */
-
-  // getusername(){
-  //   return this.https.get('http://localhost:8000/username',{
-  //     observe: 'body',
-  //     params:new HttpParams().append('token',localStorage.getItem('user'))
-  //   });
-  // }
 }
