@@ -7,6 +7,7 @@ import { Employee } from "../../module/employeemodel.module";
 import { UserService } from "../../services/user.service";
 import { AuthService } from "../../services/auth.service";
 import { ToastrService } from "ngx-toastr";
+import { NgxUiLoaderService } from 'ngx-ui-loader'; // Import NgxUiLoaderService
 import {
   NgbModal,
   ModalDismissReasons,
@@ -31,6 +32,7 @@ export class HeaderComponent implements OnInit {
   isloggedin: boolean;
   img1: any;
   constructor(
+    private ngxService: NgxUiLoaderService,
     private fb: FormBuilder,
     private toastr: ToastrService,
     private router: Router,
@@ -160,9 +162,13 @@ export class HeaderComponent implements OnInit {
   //button submit event of form
   onSubmit(event) {
     event.preventDefault();
+    this.ngxService.start();
     this.userservice
       .registration(this.profileForm.value)
       .subscribe((res: any) => {
+        if(res){
+          this.ngxService.stop();
+        }
         if (res.status) {
           this.toastr.success("successfully registerd");
           this.profileForm.reset();

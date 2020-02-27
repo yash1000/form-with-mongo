@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewChecked } from "@angular/core";
 import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router";
+import { NgxUiLoaderService } from 'ngx-ui-loader'; 
 import { UserService } from "../../services/user.service";
 import {
   NgbModal,
@@ -31,6 +32,7 @@ export class LoggedinComponent implements OnInit, AfterViewChecked {
     prop: string;
   }[];
   constructor(
+    private ngxService: NgxUiLoaderService,
     private modalService: NgbModal,
     private authsevice: AuthService,
     private router: Router,
@@ -100,7 +102,11 @@ export class LoggedinComponent implements OnInit, AfterViewChecked {
 
   //getdata function from backend
   getdata() {
+    this.ngxService.start();
     this.userservice.getemployeelist().subscribe((emp: any) => {
+      if(emp){
+        this.ngxService.stop();
+      }
       this.rows = [];
       this.rows = emp;
       this.columns = [];
@@ -152,14 +158,22 @@ export class LoggedinComponent implements OnInit, AfterViewChecked {
     this.router.navigate(["/login"]);
   }
   refreshemployeelist() {
+    this.ngxService.start();
     this.userservice.getemployeelist().subscribe(res => {
+      if(res){
+        this.ngxService.stop();
+      }
+    
       this.userservice.employees = res as Employee[];
     });
   }
   ondelete(id: string) {
     // console.log(id)
- 
-      this.userservice.deleteemployerr(id).subscribe(res => {});
-    
+    this.ngxService.start();
+    this.userservice.deleteemployerr(id).subscribe(res => {
+      if(res){
+        this.ngxService.stop();
+      }
+    }); 
   }
 }

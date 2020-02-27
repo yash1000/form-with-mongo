@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../services/user.service';
-
+import { NgxUiLoaderService } from 'ngx-ui-loader'; 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
@@ -14,7 +14,7 @@ export class ModalComponent implements OnInit {
 
  public rows: any
   img1: string;
-  constructor(private activeModal: NgbActiveModal, private fb: FormBuilder,private userservice:UserService) { }
+  constructor(private ngxService: NgxUiLoaderService,private activeModal: NgbActiveModal, private fb: FormBuilder,private userservice:UserService) { }
   profileForm:FormGroup;
   fromWhere:any;
 
@@ -39,7 +39,9 @@ export class ModalComponent implements OnInit {
   }
   onSubmit1($event){
     this.fd.append('_id',this.rows._id);
-    this.fd.append('file', this.selectedFile, this.selectedFile.name);
+    if (this.selectedFile !== null) {
+      this.fd.append('file', this.selectedFile, this.selectedFile.name);
+    }
     this.fd.append('firstName',this.profileForm.value.firstname);
     this.fd.append('lastName',  this.profileForm.value.lastname);
     this.fd.append('Emailid',this.profileForm.value.email);

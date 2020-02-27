@@ -68,7 +68,9 @@ table{
   height: 100px;
 
 }
-
+.close{
+  color:white !important
+}
 td{
   border:1px solid black;
   /* padding:1%; */
@@ -97,10 +99,12 @@ margin-left:40%;
 
 .modal-header{
 background-color: #800000;
+color:white !important
 }
 button{
 background-color: #800000;
 border: none;
+color: white !important;
 }
 button:disabled,
 button[disabled]{
@@ -108,6 +112,7 @@ border: none;
 background-color: #800000;
 color: rgba(15, 2, 2,0.2) !important;
 opacity: 0.5;
+color: white !important;
 }
 a{
 color:#800000

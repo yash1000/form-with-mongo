@@ -3,7 +3,7 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 // import { Employee } from '../employeemodel.module';
 import { DomSanitizer } from '@angular/platform-browser';
-// import { HttpHeaders } from '@angular/common/http';
+import { NgxUiLoaderService } from 'ngx-ui-loader'; // Import NgxUiLoaderService
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-profile',
@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
   userid: any;
   imageurl: any;
   url: any;
-  constructor(private activeModal: NgbActiveModal,
+  constructor(private activeModal: NgbActiveModal,private ngxService: NgxUiLoaderService,
     private domSanitizer: DomSanitizer,
     private fb: FormBuilder,
     private userservice:UserService) { }
@@ -29,7 +29,8 @@ export class ProfileComponent implements OnInit {
   profileForm:FormGroup;
 
   ngOnInit() {
-      var user1=this.userservice.getemployeelist().subscribe((res)=>{}); 
+    this.ngxService.start();
+      var user1=this.userservice.getemployeelist().subscribe((res)=>{if(res){  this.ngxService.stop();}}); 
       var user=JSON.parse(localStorage.getItem("user"));
       if(localStorage.getItem('user')){
         var user=JSON.parse(localStorage.getItem("user"));
@@ -80,8 +81,10 @@ export class ProfileComponent implements OnInit {
     var image={
       image:this.profileForm.value.image
     }    
+    this.ngxService.start();
     this.userservice.profile(this.fd).subscribe((res:any) => {
-  
+      if(res){
+      this.ngxService.stop();}
 // code for image file sent from backend
 //     this.img1=res;
 //     let TYPED_ARRAY = new Uint8Array(this.img1);

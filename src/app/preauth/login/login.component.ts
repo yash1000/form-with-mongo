@@ -8,6 +8,7 @@ import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxUiLoaderService } from 'ngx-ui-loader'; // Import NgxUiLoaderService
 declare var $:any;
 
 @Component({
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
   closeResult: string;
   user:any;
   constructor(private social:AuthServiceConfig,
+    private ngxService: NgxUiLoaderService,
     private authforgoogle:GoogleAuthService,
     private activeModal: NgbActiveModal,
     private modalService: NgbModal,private toastr: ToastrService,private router:Router, private fb:FormBuilder,private userservice:UserService,private authsevice:AuthService) { }
@@ -42,7 +44,11 @@ export class LoginComponent implements OnInit {
   onSubmit1(event) {
     event.preventDefault();
     //subscribe to node
+    this.ngxService.start();
     this.userservice.login(this.profileForm.value).subscribe((res:any) => {
+      if(res){
+        this.ngxService.stop();
+      }
       if(res.status==1){
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         console.log(res);

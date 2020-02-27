@@ -177,15 +177,20 @@ app.post('/checkuser', (req, res) => {
 //update employees api
 app.post('/updateinlist', verifyToken, (req, res) => {
   upload(req, res, (err) => {
-    var emp = new Employee({
-      _id: req.body._id,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      Emailid: req.body.Emailid,
-      contact: req.body.contact,
-      gender: req.body.gender,
-      filename: req.file.filename,
-    });
+    var emp = new Employee();
+    emp ={
+        _id: req.body._id,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        Emailid: req.body.Emailid,
+        contact: req.body.contact,
+        gender: req.body.gender,
+      }
+      if (req.file != null || req.file != undefined) {
+        if (req.file.filename != null || req.file.filename != undefined) {
+          emp.filename = req.file.filename;
+        }
+      }
     Employee.findOneAndUpdate({
       _id: req.body._id
     }, {
@@ -214,11 +219,7 @@ app.post('/updateinlist', verifyToken, (req, res) => {
 
 
 function verifyToken(req, res, next) {
-  console.log("header")
-  console.log()
   const bearerHeader = req.headers['authorization'];
-  console.log(bearerHeader)
-
   if (typeof bearerHeader !== 'undefined') {
     const bearer = bearerHeader.split(' ');
     const bearerToken = bearer[1];
@@ -231,8 +232,6 @@ function verifyToken(req, res, next) {
         if (err) {
           res.sendStatus(403);
         } else {
-          console.log(docs);
-          console.log("in verifyfunction");
           next();
         }
       })
@@ -242,15 +241,20 @@ function verifyToken(req, res, next) {
 
 //reset passeord api
 app.post('/reset', (req, res) => {
-  Employee.findOne({
-    token: req.body.token
-  }, (err, docs) => {
+  Employee.findOneAndUpdate({token: req.body.token},{$set:{"password":req.body.password}},{new:true}, (err, docs) => {
     if (docs) {
-      console.log(docs)
-      console.log("find")
+      res.send({
+        message:"successfully changed"
+      })
+      Employee.collection.update({},{
+        $unset:{token:""}
+      });
     } else {
       console.log(err)
       console.log("did not find")
+      res.send({
+        message:"error"
+      })
     }
   })
 })
@@ -286,21 +290,30 @@ app.post('/email', (req, res) => {
       var mailOptions = {
         from: 'noreply13644@gmail.com',
         to: docs.Emailid,
-        subject: 'Successfully registered',
+        subject: 'Password change',
         html: `<a href="http://localhost:4200/resetpassword?token=${encryptedString}">http://localhost:4200/resetpassword?token=${encryptedString}</a>`,
       };
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
           console.log("err is")
           console.log(error);
+          res.send({
+            message:"Error in sending email!"
+          })
         } else {
           console.log('Email sent: ' + info.response);
+          res.send({
+            message:"email send successfully!"
+          })
         }
       });
     } else {
       console.log(err)
       console.log("did not find")
       console.log("inside find")
+      res.send({
+        message:"Error in sending email!"
+      })
     }
   })
 });

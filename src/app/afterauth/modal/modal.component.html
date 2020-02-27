@@ -6,7 +6,9 @@
     </button>
   </div>
   <div class="modal-body">
-    <div>
+    <table><tr><td>
+    <!-- <div> -->
+      
       <form  [formGroup]="profileForm" method="POST"  (ngSubmit)="onSubmit1($event)" enctype="multipart/form-data"><br>
       <table>
         <tr>
@@ -67,11 +69,15 @@
       
       </table>
        </form>
-      </div>
+      
+      <!-- </div> -->
+</td><td>
+
      <div *ngIf="this.rows.filename"> 
-  <img src="{{img1}}"/>
+  <img src="{{img1}}" height="500" width="300"/>
 </div>
 <div *ngIf="!this.rows.filename">
   <h4>No image</h4>
 </div>
+</td></tr></table>
   </div>

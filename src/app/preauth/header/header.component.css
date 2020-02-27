@@ -11,6 +11,9 @@
 input.ng-invalid.ng-touched{
     border:1px solid red;
 }
+.close{
+  color:white !important
+}
 a{
   cursor: pointer;
 }

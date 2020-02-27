@@ -11,11 +11,13 @@ import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
 import { SliderComponent } from './afterauth/slider/slider.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxUiLoaderModule } from  'ngx-ui-loader';
 import { UserService } from './services/user.service';
 import { LoggedinComponent } from './afterauth/loggedin/loggedin.component';
 import { AuthGuard } from './services/authguard.service';
 import { AuthService } from './services/auth.service';
 import { SecurePage } from './services/securepage.service';
+
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { DataTablesModule } from 'angular-datatables';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -27,6 +29,7 @@ import { ProfileComponent } from './afterauth/profile/profile.component';
 import { ForgotPassComponent } from './preauth/forgot-pass/forgot-pass.component';
 import { ModalComponent } from './afterauth/modal/modal.component';
 import { ResetpasswordComponent } from './preauth/resetpassword/resetpassword.component';
+import { httpIntercepterprovider } from './services';
 
 const Facebook_app_id:any="126927075405729"
 const google_oauth_client_id:any="70675500837-tfabesmskrflb0lrlt8i3jvacqepca61.apps.googleusercontent.com";
@@ -69,12 +72,14 @@ export function provideConfig() {
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     DataTablesModule,
+    NgxUiLoaderModule,
     NgxDatatableModule
 
   ],
   providers: [
     UserService,
     AuthGuard,
+    httpIntercepterprovider,
     SecurePage,
     AuthService
   ],
