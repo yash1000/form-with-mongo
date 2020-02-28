@@ -15,6 +15,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { LoginComponent } from "../login/login.component";
 import { ProfileComponent } from "../../afterauth/profile/profile.component";
+import { isNullOrUndefined } from 'util';
 
 declare var $: any;
 
@@ -31,6 +32,7 @@ export class HeaderComponent implements OnInit {
   firstName: String;
   isloggedin: boolean;
   img1: any;
+  imgheader: any;
   constructor(
     private ngxService: NgxUiLoaderService,
     private fb: FormBuilder,
@@ -114,25 +116,58 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     //for header dynamic view
 
+
+
+    
     if (localStorage.getItem("user")) {
       this.isloggedin = true;
+      console.log("loggedin true")
     } else {
       this.isloggedin = false;
+      console.log("loggedin true")
     }
-    //get data from localstorage
+    
     var userfull = JSON.parse(localStorage.getItem("user"));
+
     if (localStorage.getItem("user")) {
       var user = JSON.parse(localStorage.getItem("user"));
+      console.log(user);
+      console.log("on user")
+      this.imgheader=user.message.filename;
+      if(user.message!=isNullOrUndefined){
+        console.log("asdasdsadf")
       this.firstName = user.message.firstName;
-
+      }else{
+        this.firstName=user.name
+      }
       if (user.message.img == null) {
-        this.img1 = "http://localhost:8000/images/" + user.message.filename;
+        if(user.message.loginwith=="google"){
+          this.img1 = user.message.filename;
+        }else{
+          if(user.message.filename){
+        this.img1 = "http://localhost:8000/images/" + user.message.filename;}
+      else{
+        this.img1='';
+      }}
       } else {
         this.img1 = user.message.img;
       }
     } else {
       this.firstName = "";
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
     this.refreshemployeelist();
     this.profileForm = this.fb.group({
       firstName: ["", [Validators.required, Validators.minLength(3)]],

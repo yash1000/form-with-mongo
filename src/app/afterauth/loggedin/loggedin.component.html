@@ -21,8 +21,8 @@
             <!-- <td>{{i+1}}</td> -->
          
             <td *ngIf="emp.filename"><img src="http://localhost:8000/images/{{emp.filename}}"  class="img" height="50" width="50"></td>
-  
-            <td *ngIf="!emp.filename"><p>NO image</p></td>
+            <td *ngIf="emp.photourl"><img src="{{emp.photourl}}" class="img" height="50" width="50"></td>
+            <td *ngIf="!emp.filename && !emp.photourl"><p class="img1">NO image</p></td>
           
             <td>{{ emp.firstName }}</td>
             <td>{{ emp.lastName }}</td>

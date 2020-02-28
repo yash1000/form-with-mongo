@@ -20,7 +20,7 @@
          </a>
         </li>   
         <li class="nav-item " *ngIf="isloggedin">
-          <img src="{{img1}}"class="dp">
+          <img src="{{img1}}" *ngIf="imgheader!==undefine" class="dp">
         </li>
         <li class="nav-item " *ngIf="isloggedin">
           <a class=" nav-link white" > Hello, {{firstName}}</a>

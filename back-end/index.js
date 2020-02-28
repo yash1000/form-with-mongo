@@ -11,6 +11,11 @@ var formidable = require('formidable'),
  
 const {mongoose}=require('./db');
 const Cryptr = require('cryptr');
+const keys = require('./controller/keys')
+const {
+  OAuth2Client
+} = require('google-auth-library');
+const client = new OAuth2Client(keys.google.clientID);
 const cryptr = new Cryptr('myTotalySecretKey');
 var employeecontroller =require('./controller/employecontroll');
 const app = express();
@@ -143,8 +148,7 @@ app.post('/checkuser', (req, res) => {
   var email = req.body.Emailid1;
   var pass = req.body.password1;
   var user = {
-    name: email,
-    pass1: pass
+    name: email
   }
   Employee.findOne({
     Emailid: email
@@ -223,18 +227,24 @@ function verifyToken(req, res, next) {
   if (typeof bearerHeader !== 'undefined') {
     const bearer = bearerHeader.split(' ');
     const bearerToken = bearer[1];
-    jwt.verify(bearerToken, 'secretkey', (err, authData) => {
-
-      var user = authData.name;
-      Employee.findOne({
-        Emailid: user
-      }, (err, docs) => {
-        if (err) {
-          res.sendStatus(403);
-        } else {
-          next();
-        }
-      })
+console.log(bearerToken)
+console.log("verify fuction")
+      jwt.verify(bearerToken, 'secretkey', (err, authData) => {
+console.log("verifyed")
+console.log(err)
+console.log(authData)
+        var user = authData.name;
+        Employee.findOne({  
+          Emailid: user
+        }, (err, docs) => {
+          if (err) {
+            res.sendStatus(403);
+          } else {
+            console.log("in next")
+            next();
+            
+          }
+        })
     })
   }
 }
@@ -317,4 +327,71 @@ app.post('/email', (req, res) => {
     }
   })
 });
+
+
+
+
+app.post('/googleform', (req, res) => {
+  var emp = new Employee({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    Emailid: req.body.email,
+    name: req.body.name,
+    photourl: req.body.photoUrl,
+    // idToken: req.body.idToken,
+    
+  });
+  var user = {
+    name: req.body.email
+  }
+  Employee.findOne({Emailid: req.body.email}, (err, docs) => {
+
+    if(docs){
+      client.verifyIdToken({
+        idToken: req.body.idToken,
+        audience: keys.google.clientID
+      }).then(data => {
+        console.log(user)
+        console.log("successfully verified user:---------------")
+        console.log(data.getPayload())
+console.log(docs._id)
+jwt.sign(user, 'secretkey', (err, token) => {
+  console.log(token)
+  console.log("token")
+        res.send({
+          data: data.getPayload(),
+          status: 1,
+          id:docs._id,
+          token:token,
+          message: "sorry user already registerd"
+        })
+      })})
+    }else{
+         console.log(emp);
+      
+          emp.save((err, docs) => {
+            
+            if (!err) {
+              
+            
+              
+              res.send({
+                status: 1,
+                message: "successfully saved",
+                token: token
+              });
+
+            } else {
+              res.send({
+                status: 2,
+                message: "some error accured in saving",
+              });
+            }
+
+
+          })
+
+  }
+
+})})
 app.use('/employee',employeecontroller)

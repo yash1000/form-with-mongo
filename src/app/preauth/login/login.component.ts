@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxUiLoaderService } from 'ngx-ui-loader'; // Import NgxUiLoaderService
+import { RESOURCE_CACHE_PROVIDER } from '@angular/platform-browser-dynamic';
 declare var $:any;
 
 @Component({
@@ -20,6 +21,9 @@ export class LoginComponent implements OnInit {
   profileForm:FormGroup;
   closeResult: string;
   user:any;
+  localuser;
+  googleformdata: any;
+  googletoken:any
   constructor(private social:AuthServiceConfig,
     private ngxService: NgxUiLoaderService,
     private authforgoogle:GoogleAuthService,
@@ -75,14 +79,45 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/forgot-pass']);
     this.closeModal();
   }
-  signinwithgoogle(platform:any):void{
-    platform=GoogleLoginProvider.PROVIDER_ID;
-    this.authforgoogle.signIn(platform).then((Response)=>{
-      console.log(platform);
-      console.log(Response);
-      console.log("from google")
-    })
-      }
+  signinwithgoogle(platform: any): void {
+    platform = GoogleLoginProvider.PROVIDER_ID;
+    this.authforgoogle.signIn(platform).then(Response => {
+      this.googleformdata = Response;
+      console.log(Response.idToken)
+      console.log("inasasdfsdf")
+      // Object.assign(this.localuser,{token:Response.idToken});
+    this.googletoken=Response.idToken;
+    this.localuser={token:Response.idToken}
+        console.log(this.localuser)      
+      this.userservice.googleform(this.googleformdata).subscribe((res: any) => {
+  console.log("response of token")
+  console.log(res.token);
+  console.log("ssssssssssssssssssssssssssssssssssss")
+        if(res.status===1){
+         var tempobj = {
+           message: {
+            "id":res.id,
+            "firstName":res.data.given_name,
+            "lastName":res.data.family_name,
+            "Emailid":res.data.email,
+            "filename":res.data.picture,
+            "loginwith":"google",        
+           },
+           token:res.token
+         }
+          console.log("in google response")
+          console.log(this.user)
+          localStorage.setItem("user",JSON.stringify(tempobj));
+          this.router.navigate(["/loggedin"]);
+          this.closeModal();
+        }
+        else{
+          console.log("error accured")
+          console.log(res.status)
+        }
+      });
+    });
+  }
       signoutwithgoogle(){
         this.authforgoogle.signOut();
         console.log("sign out bro....")

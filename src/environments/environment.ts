@@ -24,6 +24,7 @@ export const appinfo = {
     checkuser: "checkuser",
     updateinlist: "updateinlist",
     employee: "employee",
-    delete: "delete"
+    delete: "delete",
+    google:"googleform"
   }
 };

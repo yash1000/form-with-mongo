@@ -20,7 +20,11 @@ export class UserService {
   forgotpassword(email: any) {
     return this.https.post(this.baseurl + appinfo.info.email, email);
   }
-
+  googleform(googleformdata:any){
+    console.log(googleformdata);
+    console.log("inside google api")
+    return this.https.post(this.baseurl + appinfo.info.google, googleformdata);
+  }
   resetpassword(emp: any) {
     return this.https.post(this.baseurl + appinfo.info.reset, emp, {});
   }
