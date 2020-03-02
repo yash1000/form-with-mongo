@@ -25,6 +25,11 @@ export class UserService {
     console.log("inside google api")
     return this.https.post(this.baseurl + appinfo.info.google, googleformdata);
   }
+  fbform(fbformdata:any){
+    console.log(fbformdata)
+    console.log("fb")
+    return this.https.post(this.baseurl + appinfo.info.fb, fbformdata);
+  }
   resetpassword(emp: any) {
     return this.https.post(this.baseurl + appinfo.info.reset, emp, {});
   }

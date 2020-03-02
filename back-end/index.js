@@ -10,12 +10,14 @@ var formidable = require('formidable'),
     util = require('util');
  
 const {mongoose}=require('./db');
+const fetch = require('node-fetch')
 const Cryptr = require('cryptr');
 const keys = require('./controller/keys')
 const {
   OAuth2Client
 } = require('google-auth-library');
 const client = new OAuth2Client(keys.google.clientID);
+// const client1 = new OAuth2Client(keys.facebook.clientID);
 const cryptr = new Cryptr('myTotalySecretKey');
 var employeecontroller =require('./controller/employecontroll');
 const app = express();
@@ -329,8 +331,6 @@ app.post('/email', (req, res) => {
 });
 
 
-
-
 app.post('/googleform', (req, res) => {
   var emp = new Employee({
     firstName: req.body.firstName,
@@ -339,14 +339,16 @@ app.post('/googleform', (req, res) => {
     name: req.body.name,
     photourl: req.body.photoUrl,
     // idToken: req.body.idToken,
-    
+
   });
   var user = {
     name: req.body.email
   }
-  Employee.findOne({Emailid: req.body.email}, (err, docs) => {
+  Employee.findOne({
+    Emailid: req.body.email
+  }, (err, docs) => {
 
-    if(docs){
+    if (docs) {
       client.verifyIdToken({
         idToken: req.body.idToken,
         audience: keys.google.clientID
@@ -354,44 +356,109 @@ app.post('/googleform', (req, res) => {
         console.log(user)
         console.log("successfully verified user:---------------")
         console.log(data.getPayload())
-console.log(docs._id)
-jwt.sign(user, 'secretkey', (err, token) => {
-  console.log(token)
-  console.log("token")
-        res.send({
-          data: data.getPayload(),
-          status: 1,
-          id:docs._id,
-          token:token,
-          message: "sorry user already registerd"
-        })
-      })})
-    }else{
-         console.log(emp);
-      
-          emp.save((err, docs) => {
-            
-            if (!err) {
-              
-            
-              
-              res.send({
-                status: 1,
-                message: "successfully saved",
-                token: token
-              });
-
-            } else {
-              res.send({
-                status: 2,
-                message: "some error accured in saving",
-              });
-            }
-
-
+        console.log(docs._id)
+        jwt.sign(user, 'secretkey', (err, token) => {
+          console.log(token)
+          console.log("token")
+          res.send({
+            data: data.getPayload(),
+            status: 1,
+            id: docs._id,
+            token: token,
+            message: "sorry user already registerd"
           })
+        })
+      })
+    } else {
+      console.log(emp);
 
+      emp.save((err, docs) => {
+
+        if (!err) {
+          res.send({
+            status: 1,
+            message: "successfully saved",
+          });
+
+        } else {
+          res.send({
+            status: 2,
+            message: "some error accured in saving",
+          });
+        }
+      })
+    }
+  })
+})
+
+app.post('/fbform', async (req, res) => {
+  // console.log(req.body);
+  // console.log("facebook body")
+  var emp = new Employee({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    Emailid: req.body.email,
+    name: req.body.name,
+    photourl: req.body.photoUrl,
+  });
+  var user = {
+    name: req.body.email
   }
 
-})})
-app.use('/employee',employeecontroller)
+
+  Employee.findOne({
+    Emailid: req.body.email
+  },async (err, docs) => {
+
+
+
+if(docs){
+  var response = await fetch(`https://graph.facebook.com/v2.8/me?access_token=${req.body.Response.authResponse.accessToken}&method=get&pretty=0&sdk=joey&suppress_http_code=1`);
+
+  var a = await response.json()
+
+  //   console.log(a);
+  // console.log("ododododo")
+  if (a.id === req.body.id) {
+    jwt.sign(user, 'secretkey', (err, token) => {
+    console.log("valdi")
+    res.send({
+      status: 0,
+      // data: req.b,
+      message: "loggedin registered",
+      token: token
+    });})
+
+  } else {
+    console.log("not valid")
+    console.log(a.id)
+    console.log(req.body.userID)
+  }
+}
+else{
+
+  emp.save((err, docs) => {
+
+    if (!err) {
+      res.send({
+        status: 1,
+        message: "successfully saved",
+      });
+
+    } else {
+      res.send({
+        status: 2,
+        message: "some error accured in saving",
+      });
+    }
+  })
+
+
+}
+})
+});
+
+
+
+
+app.use('/employee', employeecontroller)

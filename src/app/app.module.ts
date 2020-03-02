@@ -17,7 +17,7 @@ import { LoggedinComponent } from './afterauth/loggedin/loggedin.component';
 import { AuthGuard } from './services/authguard.service';
 import { AuthService } from './services/auth.service';
 import { SecurePage } from './services/securepage.service';
-
+import { FacebookModule } from 'ngx-facebook';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { DataTablesModule } from 'angular-datatables';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -73,7 +73,8 @@ export function provideConfig() {
     ToastrModule.forRoot(),
     DataTablesModule,
     NgxUiLoaderModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    FacebookModule.forRoot()
 
   ],
   providers: [

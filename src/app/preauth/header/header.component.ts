@@ -143,7 +143,10 @@ export class HeaderComponent implements OnInit {
       if (user.message.img == null) {
         if(user.message.loginwith=="google"){
           this.img1 = user.message.filename;
-        }else{
+        }else if(user.message.loginwith=="fb"){
+          this.img1=user.message.filename;
+        }
+        else{
           if(user.message.filename){
         this.img1 = "http://localhost:8000/images/" + user.message.filename;}
       else{
@@ -155,19 +158,7 @@ export class HeaderComponent implements OnInit {
     } else {
       this.firstName = "";
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     this.refreshemployeelist();
     this.profileForm = this.fb.group({
       firstName: ["", [Validators.required, Validators.minLength(3)]],

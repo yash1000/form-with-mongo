@@ -25,6 +25,7 @@ export const appinfo = {
     updateinlist: "updateinlist",
     employee: "employee",
     delete: "delete",
-    google:"googleform"
+    google:"googleform",
+    fb:"fbform",
   }
 };
