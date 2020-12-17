@@ -25,7 +25,7 @@
     "angular-datatables": "^8.0.0",
     "angularx-social-login": "^2.2.1",
     "bootstrap": "^4.4.1",
-    "datatables.net": "^1.10.20",
+    "datatables.net": "^1.10.22",
     "datatables.net-dt": "^1.10.20",
     "jquery": "^3.4.1",
     "micromodal": "^0.4.2",
